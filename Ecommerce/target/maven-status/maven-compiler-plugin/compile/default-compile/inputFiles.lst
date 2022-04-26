@@ -1,7 +1,12 @@
-C:\Users\Roque\Documents\Roque\Programación\Egg\Proyecto Final\GestionInventario\Ecommerce\src\main\java\com\ecommerce\entities\Producto.java
-C:\Users\Roque\Documents\Roque\Programación\Egg\Proyecto Final\GestionInventario\Ecommerce\src\main\java\com\ecommerce\entities\Usuario.java
-C:\Users\Roque\Documents\Roque\Programación\Egg\Proyecto Final\GestionInventario\Ecommerce\src\main\java\com\ecommerce\enums\RolUsuario.java
-C:\Users\Roque\Documents\Roque\Programación\Egg\Proyecto Final\GestionInventario\Ecommerce\src\main\java\com\ecommerce\enums\TipoProducto.java
-C:\Users\Roque\Documents\Roque\Programación\Egg\Proyecto Final\GestionInventario\Ecommerce\src\main\java\com\ecommerce\EcommerceApplication.java
-C:\Users\Roque\Documents\Roque\Programación\Egg\Proyecto Final\GestionInventario\Ecommerce\src\main\java\com\ecommerce\enums\EstadoFactura.java
-C:\Users\Roque\Documents\Roque\Programación\Egg\Proyecto Final\GestionInventario\Ecommerce\src\main\java\com\ecommerce\entities\Factura.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\controller\PortalControlador.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\enums\EstadoFactura.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\entities\Producto.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\enums\RolUsuario.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\enums\TipoProducto.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\services\FacturaServicio.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\services\UsuarioServicio.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\repositories\FacturaRepositorio.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\repositories\UsuarioRepositorio.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\EcommerceApplication.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\entities\Factura.java
+D:\Cursos\EGG\GestionInventario\Ecommerce\src\main\java\com\ecommerce\entities\Usuario.java

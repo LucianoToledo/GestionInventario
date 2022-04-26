@@ -1,11 +1,14 @@
 package com.ecommerce.entities;
 
 import com.ecommerce.enums.RolUsuario;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -20,19 +23,30 @@ public class Usuario {
     private String direccion;
     private String email;
     private String password;
+    private boolean activo;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaAltaUsuario;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaBajaUsuario;
+    
     @Enumerated(EnumType.STRING)
     private RolUsuario rolUsuario;
 
     public Usuario() {
     }
 
-    public Usuario(String id, String nombre, String apellido, String direccion, String email, String password, RolUsuario rolUsuario) {
+    public Usuario(String id, String nombre, String apellido, String direccion, String email, String password, boolean activo, Date fechaAltaUsuario, Date fechaBajaUsuario, RolUsuario rolUsuario) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
         this.email = email;
         this.password = password;
+        this.activo = activo;
+        this.fechaAltaUsuario = fechaAltaUsuario;
+        this.fechaBajaUsuario = fechaBajaUsuario;
         this.rolUsuario = rolUsuario;
     }
 
@@ -84,6 +98,30 @@ public class Usuario {
         this.password = password;
     }
 
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+
+    public Date getFechaAltaUsuario() {
+        return fechaAltaUsuario;
+    }
+
+    public void setFechaAltaUsuario(Date fechaAltaUsuario) {
+        this.fechaAltaUsuario = fechaAltaUsuario;
+    }
+
+    public Date getFechaBajaUsuario() {
+        return fechaBajaUsuario;
+    }
+
+    public void setFechaBajaUsuario(Date fechaBajaUsuario) {
+        this.fechaBajaUsuario = fechaBajaUsuario;
+    }
+
     public RolUsuario getRolUsuario() {
         return rolUsuario;
     }
@@ -91,6 +129,6 @@ public class Usuario {
     public void setRolUsuario(RolUsuario rolUsuario) {
         this.rolUsuario = rolUsuario;
     }
-   
+
     
 }
