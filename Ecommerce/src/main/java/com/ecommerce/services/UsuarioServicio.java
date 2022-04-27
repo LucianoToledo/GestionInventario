@@ -44,7 +44,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setActivo(true);
         usuario.setFechaAltaUsuario(new Date());
         usuario.setFechaBajaUsuario(null);
-        usuario.setRolUsuario(rolUsuario.CLIENTE); //se tiene que pedir desde la vista
+        usuario.setRolUsuario(rolUsuario.CLIENTE);
 
         usuarioRepositorio.save(usuario);
     }
