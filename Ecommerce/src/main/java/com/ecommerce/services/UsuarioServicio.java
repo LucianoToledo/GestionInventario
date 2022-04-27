@@ -50,7 +50,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Transactional(rollbackFor = {Exception.class})
     public void eliminarUsuario(String id) throws Exception {
-        usuarioRepositorio.delete(buscarPorId(id));
+        usuarioRepositorio.deleteById(buscarPorId(id).getId());
     }
 
     @Transactional(rollbackFor = {Exception.class})
