@@ -175,7 +175,9 @@ public class UsuarioServicio implements UserDetailsService {
         } catch (Exception ex) {
             Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        if (!u.getActivo()) {
+            throw new UsernameNotFoundException("El usuario está dado de baja");
+        }
         if (u == null) {
             return null;
         }
