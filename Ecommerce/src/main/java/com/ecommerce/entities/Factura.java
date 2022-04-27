@@ -31,11 +31,14 @@ public class Factura {
     private List<Producto> producto;
     @OneToOne
     private Usuario usuario;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date bajaFactura;
+    private boolean activo;
 
     public Factura() {
     }
 
-    public Factura(String id, Date fechaFactura, double total, int cantidadItem, EstadoFactura estadoFactura, List<Producto> producto, Usuario usuario) {
+    public Factura(String id, Date fechaFactura, double total, int cantidadItem, EstadoFactura estadoFactura, List<Producto> producto, Usuario usuario, Date bajaFactura, boolean activo) {
         this.id = id;
         this.fechaFactura = fechaFactura;
         this.total = total;
@@ -43,7 +46,28 @@ public class Factura {
         this.estadoFactura = estadoFactura;
         this.producto = producto;
         this.usuario = usuario;
+        this.bajaFactura = bajaFactura;
+        this.activo = activo;
     }
+
+    public Date getBajaFactura() {
+        return bajaFactura;
+    }
+
+    public void setBajaFactura(Date bajaFactura) {
+        this.bajaFactura = bajaFactura;
+    }
+
+    public boolean isActivo() {
+        return activo;
+    }
+
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
+
+    
 
     public String getId() {
         return id;
