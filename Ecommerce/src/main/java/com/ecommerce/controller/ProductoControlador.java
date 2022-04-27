@@ -41,8 +41,8 @@ public class ProductoControlador {
     
     @GetMapping("/lista")
     public String listar(ModelMap modelo){
-          List<Producto> productos = productoServicio.listar();
-          modelo.put("productos", productos);
+          //List<Producto> productos = productoServicio.listar();
+          //modelo.put("productos", productos);
           return "";        
     }
     
