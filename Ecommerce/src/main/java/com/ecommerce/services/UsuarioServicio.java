@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.beans.factory.BeanCreationException;
 
 @Service
 public class UsuarioServicio implements UserDetailsService {
@@ -175,7 +176,7 @@ public class UsuarioServicio implements UserDetailsService {
         } catch (Exception ex) {
             Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (!u.getActivo()) {
+        if (!u.isActivo()) {
             throw new UsernameNotFoundException("El usuario está dado de baja");
         }
         if (u == null) {
