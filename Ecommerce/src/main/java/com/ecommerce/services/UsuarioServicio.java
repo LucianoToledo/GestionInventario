@@ -43,14 +43,14 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setActivo(true);
         usuario.setFechaAltaUsuario(new Date());
         usuario.setFechaBajaUsuario(null);
-        usuario.setRolUsuario(rolUsuario); //se tiene que pedir desde la vista
+        usuario.setRolUsuario(rolUsuario.CLIENTE); //se tiene que pedir desde la vista
 
         usuarioRepositorio.save(usuario);
     }
 
     @Transactional(rollbackFor = {Exception.class})
     public void eliminarUsuario(String id) throws Exception {
-        usuarioRepositorio.delete(buscarPorId(id));
+        usuarioRepositorio.deleteById(buscarPorId(id).getId());
     }
 
     @Transactional(rollbackFor = {Exception.class})
