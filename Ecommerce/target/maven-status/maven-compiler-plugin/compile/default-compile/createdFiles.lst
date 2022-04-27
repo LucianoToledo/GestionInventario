@@ -1,6 +1,7 @@
 com\ecommerce\enums\TipoProducto.class
 com\ecommerce\EcommerceApplication.class
 com\ecommerce\enums\EstadoFactura.class
+com\ecommerce\controller\PortalControlador.class
 com\ecommerce\enums\RolUsuario.class
 com\ecommerce\entities\Usuario.class
 com\ecommerce\entities\Factura.class
