@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.beans.factory.BeanCreationException;
 
 @Service
 public class UsuarioServicio implements UserDetailsService {
@@ -43,7 +44,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setActivo(true);
         usuario.setFechaAltaUsuario(new Date());
         usuario.setFechaBajaUsuario(null);
-        usuario.setRolUsuario(rolUsuario); //se tiene que pedir desde la vista
+        usuario.setRolUsuario(rolUsuario.CLIENTE);
 
         usuarioRepositorio.save(usuario);
     }
