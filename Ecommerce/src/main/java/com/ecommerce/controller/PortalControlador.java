@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/")
 public class PortalControlador {
-
-    @GetMapping("/login")
-    public String login() {
-        return "login.html";
+    
+    @GetMapping("/")
+    public String pruebaLogin(){
+        return "prueba-login.html";
     }
+    
 }
