@@ -38,7 +38,7 @@ public class FacturaServicio {
     }
        
     @Transactional(rollbackFor = {Exception.class})
-    public void modificar(String idFactura, String idUsuario, List<Producto> productos, EstadoFactura estadoFactura,Producto producto)
+    public void modificar(String idFactura, String idUsuario, List<Producto> productos, EstadoFactura estadoFactura)
             throws ErrorServicio {
         validar(idUsuario, productos, estadoFactura);
         Optional<Factura> respuesta = facturaRepositorio.findById(idFactura);
@@ -77,8 +77,8 @@ public class FacturaServicio {
    
     @Transactional(readOnly = true)
    public List<Factura> listar(){
-       List facturas = facturaRepositorio.findAll();
-       return facturas;
+      return facturaRepositorio.findAll();
+        
    }
    
    private double sumarTotal(List<Producto> productos){
