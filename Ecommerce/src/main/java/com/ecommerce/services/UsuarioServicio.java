@@ -31,7 +31,7 @@ public class UsuarioServicio implements UserDetailsService {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Transactional(rollbackFor = {Exception.class})
-    public void agregarUsuario(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword, RolUsuario rolUsuario) throws Exception {
+    public void agregarUsuario(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword) throws Exception {
         validarDatos(nombre, apellido, direccion, email, password, confirmarPassword);
         String passwordEncriptado = new BCryptPasswordEncoder().encode(password);
 
@@ -44,7 +44,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setActivo(true);
         usuario.setFechaAltaUsuario(new Date());
         usuario.setFechaBajaUsuario(null);
-        usuario.setRolUsuario(rolUsuario.CLIENTE);
+        usuario.setRolUsuario(RolUsuario.CLIENTE);
 
         usuarioRepositorio.save(usuario);
     }
