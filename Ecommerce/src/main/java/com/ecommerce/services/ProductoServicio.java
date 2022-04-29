@@ -114,7 +114,7 @@ public class ProductoServicio {
     }
     }
     
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)      //Falta la logica para poder actualizar el stock
     public void actualizarStockProducto(String id, int stock)throws Exception{
         Producto producto = buscarPorId(id);
         
