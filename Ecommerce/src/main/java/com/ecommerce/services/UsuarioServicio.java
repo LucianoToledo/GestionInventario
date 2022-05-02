@@ -1,5 +1,6 @@
 package com.ecommerce.services;
 
+import com.ecommerce.Errores.ErrorServicio;
 import com.ecommerce.entities.Usuario;
 import com.ecommerce.enums.RolUsuario;
 import com.ecommerce.repositories.UsuarioRepositorio;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.beans.factory.BeanCreationException;
 
 @Service
 public class UsuarioServicio implements UserDetailsService {
@@ -146,25 +146,25 @@ public class UsuarioServicio implements UserDetailsService {
 
     public void validarDatos(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword) throws Exception {
         if (nombre == null || nombre.isEmpty()) { //agregar validacion que la cadena sean solo letras
-            throw new Exception("Error: El nombre del Usuario no puede ser nulo");
+            throw new ErrorServicio("Error: El nombre del Usuario no puede ser nulo");
         }
         if (apellido == null || apellido.isEmpty()) {
-            throw new Exception("Error: El apellido del Usuario no puede ser nulo");
+            throw new ErrorServicio("Error: El apellido del Usuario no puede ser nulo");
         }
         if (direccion == null || direccion.isEmpty()) {
-            throw new Exception("Error: La direccion del Usuario no puede ser nula");
+            throw new ErrorServicio("Error: La direccion del Usuario no puede ser nula");
         }
         if (email == null || email.isEmpty()) {
-            throw new Exception("Error: El email del Usuario no puede ser nulo");
+            throw new ErrorServicio("Error: El email del Usuario no puede ser nulo");
         }
         if (password == null || password.isEmpty()) {
-            throw new Exception("Error: La contraseña del Usuario no puede ser nula");
+            throw new ErrorServicio("Error: La contraseña del Usuario no puede ser nula");
         }
         if (confirmarPassword == null || confirmarPassword.isEmpty()) {
-            throw new Exception("Error: La confirmacion de constraseña del Usuario no puede ser nula");
+            throw new ErrorServicio("Error: La confirmacion de constraseña del Usuario no puede ser nula");
         }
         if (!password.equals(confirmarPassword)) {
-            throw new Exception("Las contraseñas deben ser iguales");
+            throw new ErrorServicio("Las contraseñas deben ser iguales");
         }
     }
 

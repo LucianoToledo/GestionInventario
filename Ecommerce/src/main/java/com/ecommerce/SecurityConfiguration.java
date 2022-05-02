@@ -1,4 +1,4 @@
-package com.ecommerce.controller;
+package com.ecommerce;
 
 import com.ecommerce.services.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						.permitAll()
 				.and().logout()
 					.logoutUrl("/logout") //para deslogearse
-					.logoutSuccessUrl("/l")
+					.logoutSuccessUrl("/login?logout=logout")
 					.permitAll()
 				.and().csrf()
 					.disable();
