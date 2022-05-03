@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
@@ -31,6 +32,8 @@ public class Producto {
     
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
+    @OneToOne
+    private Imagen imagen;
 
     public Producto() {
     }
@@ -119,5 +122,11 @@ public class Producto {
         this.fechaBaja = fechaBaja;
     }
 
-   
+    public Imagen getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
+    }
 }
