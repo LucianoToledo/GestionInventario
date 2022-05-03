@@ -7,6 +7,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
@@ -18,6 +19,7 @@ public class Producto {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    private String nombre;
     private String descripcion;
     private int stock;
     private float precioVenta;
@@ -30,12 +32,15 @@ public class Producto {
     
     @Temporal(TemporalType.DATE)
     private Date fechaBaja;
+    @OneToOne
+    private Imagen imagen;
 
     public Producto() {
     }
 
-    public Producto(String id, String descripcion, int stock, float precioVenta, TipoProducto tipoProducto, boolean activo, Date fechaAlta, Date fechaBaja) {
+    public Producto(String id, String nombre, String descripcion, int stock, float precioVenta, TipoProducto tipoProducto, boolean activo, Date fechaAlta, Date fechaBaja) {
         this.id = id;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.stock = stock;
         this.precioVenta = precioVenta;
@@ -51,6 +56,14 @@ public class Producto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -101,7 +114,7 @@ public class Producto {
         this.fechaAlta = fechaAlta;
     }
 
-    public Date getfechaBaja() {
+    public Date getFechaBaja() {
         return fechaBaja;
     }
 
@@ -109,4 +122,12 @@ public class Producto {
         this.fechaBaja = fechaBaja;
     }
 
+    public Imagen getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Imagen imagen) {
+        this.imagen = imagen;
+    }
+    
 }
