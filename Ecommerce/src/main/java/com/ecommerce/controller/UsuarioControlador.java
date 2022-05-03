@@ -17,12 +17,7 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioServicio usuarioServicio;
 
-    @GetMapping("/login")
-    public String login() {
-        return "login.html";
-    }
-
-    @GetMapping("/registrar")
+    @GetMapping("/registro")
     public String form() {
         return "registro.html";
     }
@@ -32,13 +27,13 @@ public class UsuarioControlador {
         return "prueba-registro.html";
     }
 
-    @PostMapping("/registrar")
-    public String registrarUsuario(ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String direccion, @RequestParam String email, @RequestParam String password, @RequestParam String confirmarPassword, @RequestParam(required = false) RolUsuario rolUsuario) {
+    @PostMapping("/registro")
+    public String registroUsuario(ModelMap modelo, @RequestParam String nombre, @RequestParam String apellido, @RequestParam String direccion, @RequestParam String email, @RequestParam String password, @RequestParam String confirmarPassword, @RequestParam(required = false) RolUsuario rolUsuario) {
         try {
             usuarioServicio.agregarUsuario(nombre, apellido, direccion, email, password, confirmarPassword);
             modelo.put("exito", "El Usuario '" + nombre + apellido + "' se agregó exitosamente");
-        } catch (Exception e) {
-            modelo.put("error", "Error!!, No se agregó el Usuario");
+        } catch (Exception ex) { //el "ex" no se esta usando, se deberia usar para traer el mensaje del servicio de usuario ex.getMessage()
+            modelo.put("error",ex.getMessage()); //el mensaje deberia traerlo del servicio de usuario
         }
         return "login.html";
     }
