@@ -19,6 +19,7 @@ public class Producto {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
+    private String nombre;
     private String descripcion;
     private int stock;
     private float precioVenta;
@@ -37,8 +38,9 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(String id, String descripcion, int stock, float precioVenta, TipoProducto tipoProducto, boolean activo, Date fechaAlta, Date fechaBaja) {
+    public Producto(String id, String nombre, String descripcion, int stock, float precioVenta, TipoProducto tipoProducto, boolean activo, Date fechaAlta, Date fechaBaja) {
         this.id = id;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.stock = stock;
         this.precioVenta = precioVenta;
@@ -54,6 +56,14 @@ public class Producto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -104,7 +114,7 @@ public class Producto {
         this.fechaAlta = fechaAlta;
     }
 
-    public Date getfechaBaja() {
+    public Date getFechaBaja() {
         return fechaBaja;
     }
 
