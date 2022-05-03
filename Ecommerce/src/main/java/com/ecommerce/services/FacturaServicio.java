@@ -29,7 +29,7 @@ public class FacturaServicio {
         factura.setUsuario(usuarioServicio.buscarPorId(idUsuario));
         factura.setCantidadItem(productos.size());
         factura.setProducto(productos);
-        factura.setTotal(sumarTotal(productos));       // hacer logica para sumar las facturas 
+        factura.setTotal(sumarTotal(productos));      
         factura.setEstadoFactura(estadoFactura);
         factura.setFechaFactura(new Date());
         factura.setActivo(true);

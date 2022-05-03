@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.beans.factory.BeanCreationException;
 
 @Service
 public class UsuarioServicio implements UserDetailsService {
@@ -30,7 +31,7 @@ public class UsuarioServicio implements UserDetailsService {
     private UsuarioRepositorio usuarioRepositorio;
 
     @Transactional(rollbackFor = {Exception.class})
-    public void agregarUsuario(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword, RolUsuario rolUsuario) throws Exception {
+    public void agregarUsuario(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword) throws Exception {
         validarDatos(nombre, apellido, direccion, email, password, confirmarPassword);
         String passwordEncriptado = new BCryptPasswordEncoder().encode(password);
 
@@ -43,14 +44,14 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setActivo(true);
         usuario.setFechaAltaUsuario(new Date());
         usuario.setFechaBajaUsuario(null);
-        usuario.setRolUsuario(rolUsuario); //se tiene que pedir desde la vista
+        usuario.setRolUsuario(RolUsuario.CLIENTE);
 
         usuarioRepositorio.save(usuario);
     }
 
     @Transactional(rollbackFor = {Exception.class})
     public void eliminarUsuario(String id) throws Exception {
-        usuarioRepositorio.delete(buscarPorId(id));
+        usuarioRepositorio.deleteById(buscarPorId(id).getId());
     }
 
     @Transactional(rollbackFor = {Exception.class})
@@ -175,7 +176,9 @@ public class UsuarioServicio implements UserDetailsService {
         } catch (Exception ex) {
             Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        if (!u.isActivo()) {
+            throw new UsernameNotFoundException("El usuario está dado de baja");
+        }
         if (u == null) {
             return null;
         }
