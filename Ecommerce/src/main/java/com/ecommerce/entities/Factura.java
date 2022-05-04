@@ -62,6 +62,16 @@ public class Factura {
         return activo;
     }
 
+    
+
+    public boolean isIsActivo() {
+        return activo;
+    }
+
+    public void setIsActivo(boolean isActivo) {
+        this.activo = isActivo;
+    }
+
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
