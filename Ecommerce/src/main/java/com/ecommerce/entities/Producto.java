@@ -129,5 +129,5 @@ public class Producto {
     public void setImagen(Imagen imagen) {
         this.imagen = imagen;
     }
-    
+
 }
