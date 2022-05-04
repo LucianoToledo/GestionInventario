@@ -3,6 +3,7 @@ package com.ecommerce.services;
 import com.ecommerce.Errores.ErrorServicio;
 import com.ecommerce.entities.Factura;
 import com.ecommerce.entities.Producto;
+import com.ecommerce.entities.Usuario;
 import com.ecommerce.enums.EstadoFactura;
 import com.ecommerce.repositories.FacturaRepositorio;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class FacturaServicio {
     private UsuarioServicio usuarioServicio;
 
     @Transactional(rollbackFor = {Exception.class})
-    public Factura alta(String idUsuario, List<Producto> productos, EstadoFactura estadoFactura) throws ErrorServicio, Exception {
+    public Factura crear(String idUsuario, List<Producto> productos, EstadoFactura estadoFactura) throws ErrorServicio, Exception {
         
         validar(idUsuario, productos, estadoFactura);
         Factura factura = new Factura();
@@ -37,43 +38,51 @@ public class FacturaServicio {
         return facturaRepositorio.save(factura);
     }
        
+//    @Transactional(rollbackFor = {Exception.class})
+//    public void modificar(String idFactura, String idUsuario, List<Producto> productos, EstadoFactura estadoFactura)
+//            throws ErrorServicio {
+//        validar(idUsuario, productos, estadoFactura);
+//        Optional<Factura> respuesta = facturaRepositorio.findById(idFactura);
+//        if (respuesta.isPresent()) {
+//            Factura factura = respuesta.get();
+//            if (factura.getUsuario().getId().equals(idUsuario)) {
+//              //  factura.setProducto(elimiProducto(productos, producto));
+//                factura.setCantidadItem(productos.size());
+//                factura.setEstadoFactura(estadoFactura);
+//                factura.setTotal(sumarTotal(productos));
+//                facturaRepositorio.save(factura);
+//            } else {
+//                throw new ErrorServicio("La factura corresponde a otro usuario");
+//            }
+//        } else {
+//            throw new ErrorServicio("No existe una factura con el identificador solicitado");
+//        }
+//    }
+    
     @Transactional(rollbackFor = {Exception.class})
-    public void modificar(String idFactura, String idUsuario, List<Producto> productos, EstadoFactura estadoFactura)
-            throws ErrorServicio {
-        validar(idUsuario, productos, estadoFactura);
-        Optional<Factura> respuesta = facturaRepositorio.findById(idFactura);
-        if (respuesta.isPresent()) {
-            Factura factura = respuesta.get();
-            if (factura.getUsuario().getId().equals(idUsuario)) {
-              //  factura.setProducto(elimiProducto(productos, producto));
-                factura.setCantidadItem(productos.size());
-                factura.setEstadoFactura(estadoFactura);
-                factura.setTotal(sumarTotal(productos));
+    public void alta(String idFactura) throws ErrorServicio {
+       Factura factura = buscarPorId(idFactura);
+             if (!factura.isActivo()) {
+                factura.setActivo(true);
+                factura.setFechaFactura(new Date());
+                factura.setBajaFactura(new Date());
                 facturaRepositorio.save(factura);
-            } else {
-                throw new ErrorServicio("La factura corresponde a otro usuario");
-            }
-        } else {
-            throw new ErrorServicio("No existe una factura con el identificador solicitado");
         }
-    }
+        } 
+          
+            
         
     @Transactional(rollbackFor = {Exception.class})
-    public void baja(String idFactura, String idUsuario) throws ErrorServicio {
-        Optional<Factura> respuesta = facturaRepositorio.findById(idFactura);
-        if (respuesta.isPresent()) {
-            Factura factura = respuesta.get();
-            if (factura.getUsuario().getId().equals(idUsuario)) {
+    public void baja(String idFactura) throws ErrorServicio {
+       Factura factura = buscarPorId(idFactura);
+           if (factura.isActivo()){
                 factura.setActivo(false);
                 factura.setBajaFactura(new Date());
                 facturaRepositorio.save(factura);
-            } else {
-                throw new ErrorServicio("La factura corresponde a otro usuario");
-            }
-        } else {
-            throw new ErrorServicio("No existe una factura con el identificador solicitado");
-        }
-    }
+           }
+        } 
+               
+          
    
     @Transactional(readOnly = true)
    public List<Factura> listar(){
@@ -101,6 +110,18 @@ public class FacturaServicio {
             throw new ErrorServicio("Debe indicar el estado de la factura");
         }
     }
+    
+     @Transactional(readOnly = true)
+    public Factura buscarPorId(String id) throws ErrorServicio {
+        Optional<Factura> resupuesta = facturaRepositorio.findById(id);
+        if (resupuesta.isPresent()) {
+            return resupuesta.get();
+        } else {
+            throw new ErrorServicio("No se encontró la factura");
+        }
+    }
+
+
     
 //    private List<Producto> elimiProducto(List<Producto> productos, Producto producto) throws ErrorServicio{
 //        Iterator<Producto> iterador = productos.iterator();
