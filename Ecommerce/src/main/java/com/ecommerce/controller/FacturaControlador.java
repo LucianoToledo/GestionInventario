@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Controller
@@ -26,8 +27,10 @@ public class FacturaControlador {
     @Autowired
     private FacturaServicio facturaServicio;
     @Autowired
-    
     private UsuarioServicio usuarioServicio;
+    
+    
+    
    @GetMapping("/crear")
    public String factura(ModelMap modelo){
        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
@@ -47,27 +50,27 @@ public class FacturaControlador {
        return "factura-crear.html";
    }
    
-    @PostMapping("/alta/{idFactura}")
-   public String alta(ModelMap modelo, @PathVariable String idFactura, @RequestParam String idUsuario) throws ErrorServicio{
+    @GetMapping("/alta/{idFactura}")
+   public String alta(RedirectAttributes attr, @PathVariable String idFactura, @RequestParam String idUsuario) throws ErrorServicio{
        try {
            facturaServicio.alta(idFactura);
-           modelo.put("alta", "La factura ha sido dada de alta");
+           attr.addFlashAttribute("alta", "La factura ha sido dada de alta");
        } catch (Exception e) {
-           modelo.put("error", e.getMessage());
+           attr.addFlashAttribute("error", e.getMessage());
        }
-       return "factura-alta.html";
+       return "redirect: factura-alta.html";
        
    }
    
-   @PostMapping("/baja")
-   public String baja(ModelMap modelo, @RequestParam String idFactura, @RequestParam String idUsuario) throws ErrorServicio{
+   @GetMapping("/baja")
+   public String baja(RedirectAttributes attr, @RequestParam String idFactura, @RequestParam String idUsuario) throws ErrorServicio{
        try {
            facturaServicio.baja(idFactura);
-           modelo.put("baja", "La factura ha sido dada de baja");
+           attr.addFlashAttribute("baja", "La factura ha sido dada de baja");
        } catch (Exception e) {
-           modelo.put("error", e.getMessage());
+           attr.addFlashAttribute("error", e.getMessage());
        }
-       return "factura-baja.html";
+       return "redirect: factura-baja.html";
        
    }
    
