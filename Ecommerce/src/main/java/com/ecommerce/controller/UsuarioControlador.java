@@ -1,7 +1,9 @@
 package com.ecommerce.controller;
 
+import com.ecommerce.entities.Usuario;
 import com.ecommerce.enums.RolUsuario;
 import com.ecommerce.services.UsuarioServicio;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -68,6 +70,7 @@ public class UsuarioControlador {
       return"";
   }
   
+  //Ver que método se usa
   @GetMapping("/modificarRolUsuario/{id}")
   public String modificarRolUsuario(RedirectAttributes attr, @PathVariable String id, @RequestParam RolUsuario rol){
       
@@ -105,4 +108,45 @@ public class UsuarioControlador {
       
       return"redirect:";
   }
+  
+  //Get o Post??
+  @GetMapping("/buscarPorRol")
+  public String buscarPorRol(ModelMap modelo, @RequestParam RolUsuario rol){
+      
+      List<Usuario> usuarios = usuarioServicio.buscarPorRol(rol);
+      modelo.put("usuarios", usuarios);
+      
+      return"";
+  }
+  
+  //Get o Post??
+  @GetMapping("/buscarPorNombreApellidoEmail")
+  public String buscarPorNombreApellidoEmail(ModelMap modelo, @RequestParam String query){
+      
+         List<Usuario> usuarios = usuarioServicio.buscarPorNombreApellidoEmail(query); 
+         modelo.put("usuarios", usuarios);
+      
+      return"";
+  }
+  
+  //Get o Post??
+  @GetMapping("/buscarPorEmail")
+  public String buscarPorEmail(ModelMap modelo, @RequestParam String email){
+      
+      try{
+          usuarioServicio.buscarPorEmail(email);
+          modelo.put("exito", "El email del Usuario se ha encontrado!!");
+      }catch(Exception e){
+          modelo.put("error", e.getMessage());
+      }
+      return"";
+  }
+  
+  @GetMapping("/listarUsuarios")
+  public String listaUsuarios(ModelMap modelo){
+          List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+          modelo.put("usuarios", usuarios);
+          
+       return "";        
+    }
 }

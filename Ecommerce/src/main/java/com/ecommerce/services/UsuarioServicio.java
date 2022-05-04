@@ -114,7 +114,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
-    public List<Usuario> buscarPorRol(String rol) { //se debe recibir un string del enum de rol
+    public List<Usuario> buscarPorRol(RolUsuario rol){ //se debe recibir un string del enum de rol    
         return usuarioRepositorio.buscarPorRol(rol);
     }
 
