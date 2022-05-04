@@ -30,6 +30,9 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
 
+    @Autowired
+    private SendMailService sendMailService;
+
     @Transactional(rollbackFor = {Exception.class})
     public void agregarUsuario(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword) throws Exception {
         validarDatos(nombre, apellido, direccion, email, password, confirmarPassword);
@@ -47,8 +50,9 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setRolUsuario(RolUsuario.CLIENTE);
 
         usuarioRepositorio.save(usuario);
+        sendMailService.mensajeBienvenida(email, nombre);
     }
-
+    
     @Transactional(rollbackFor = {Exception.class})
     public void eliminarUsuario(String id) throws Exception {
         usuarioRepositorio.deleteById(buscarPorId(id).getId());
@@ -108,14 +112,14 @@ public class UsuarioServicio implements UserDetailsService {
             throw new Exception("El usuario ya se encuentra dado de alta");
         }
     }
-    
+
     @Transactional(readOnly = true)
-    public List<Usuario> buscarPorRol(RolUsuario rol){ //se debe recibir un string del enum de rol
+    public List<Usuario> buscarPorRol(RolUsuario rol){ //se debe recibir un string del enum de rol    
         return usuarioRepositorio.buscarPorRol(rol);
     }
-    
+
     @Transactional(readOnly = true)
-    public List<Usuario> buscarPorNombreApellidoEmail(String query){ //aca recibo un nombre O un apellido O un email y lo busca
+    public List<Usuario> buscarPorNombreApellidoEmail(String query) { //aca recibo un nombre O un apellido O un email y lo busca
         return usuarioRepositorio.buscarPorNombreApellidoEmail(query);
     }
 
@@ -144,27 +148,30 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarioRepositorio.findAll();
     }
 
-    public void validarDatos(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword) throws Exception {
+    private void validarDatos(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword) throws Exception {
         if (nombre == null || nombre.isEmpty()) { //agregar validacion que la cadena sean solo letras
-            throw new ErrorServicio("Error: El nombre del Usuario no puede ser nulo");
+            throw new ErrorServicio("Error: El nombre del Usuario no puede ser nulo.");
         }
         if (apellido == null || apellido.isEmpty()) {
-            throw new ErrorServicio("Error: El apellido del Usuario no puede ser nulo");
+            throw new ErrorServicio("Error: El apellido del Usuario no puede ser nulo.");
         }
         if (direccion == null || direccion.isEmpty()) {
-            throw new ErrorServicio("Error: La direccion del Usuario no puede ser nula");
+            throw new ErrorServicio("Error: La direccion del Usuario no puede ser nula.");
         }
         if (email == null || email.isEmpty()) {
-            throw new ErrorServicio("Error: El email del Usuario no puede ser nulo");
+            throw new ErrorServicio("Error: El email del Usuario no puede ser nulo.");
+        }
+        if(email.equals(buscarPorEmail(email).getEmail())){
+            throw new ErrorServicio("Error: El email "+email+" ya se encuentra registrado.");
         }
         if (password == null || password.isEmpty()) {
-            throw new ErrorServicio("Error: La contraseña del Usuario no puede ser nula");
+            throw new ErrorServicio("Error: La contraseña del Usuario no puede ser nula.");
         }
         if (confirmarPassword == null || confirmarPassword.isEmpty()) {
-            throw new ErrorServicio("Error: La confirmacion de constraseña del Usuario no puede ser nula");
+            throw new ErrorServicio("Error: La confirmacion de constraseña del Usuario no puede ser nula.");
         }
         if (!password.equals(confirmarPassword)) {
-            throw new ErrorServicio("Las contraseñas deben ser iguales");
+            throw new ErrorServicio("Las contraseñas deben ser iguales.");
         }
     }
 
