@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/usuario")
@@ -37,4 +39,70 @@ public class UsuarioControlador {
         }
         return "login.html";
     }
+    
+  @GetMapping ("/eliminarUsuario/{id}") 
+  public String eliminarUsuario(RedirectAttributes attr, @PathVariable String id){
+      
+      try{
+          usuarioServicio.eliminarUsuario(id);
+          attr.addFlashAttribute("exito", "El Usuario se ha eliminado exitosamente!!");
+      }catch(Exception e){
+          attr.addFlashAttribute("error", "El Usuario no se ha eliminado!!");
+      }
+      
+      return "redirect:";
+  }
+  
+  //Ver si se hace con modal o vista nueva
+  @GetMapping("/modificarUsuario/{id}")
+  public String modificarUsuario(RedirectAttributes attr, @PathVariable String id,@RequestParam String nombre, @RequestParam String apellido, 
+          @RequestParam String direccion, @RequestParam String email, @RequestParam String password, 
+          @RequestParam String confirmarPassword, @RequestParam RolUsuario rolUsuario){
+      
+      try{
+          usuarioServicio.modificarUsuario(id, nombre, apellido, direccion, email, password, confirmarPassword, rolUsuario);
+          attr.addFlashAttribute("exito", "El Usuario se ha modificado exitosamente!!");
+      }catch (Exception e){
+          attr.addFlashAttribute("error", "El Usuario no se ha modificado!!");
+      }
+      return"";
+  }
+  
+  @GetMapping("/modificarRolUsuario/{id}")
+  public String modificarRolUsuario(RedirectAttributes attr, @PathVariable String id, @RequestParam RolUsuario rol){
+      
+      try{
+          usuarioServicio.modificarRolUsuario(id, rol);
+          attr.addFlashAttribute("exito", "El Rol de Usuario se ha modificado exitosamente!!");
+      }catch(Exception e){
+          attr.addFlashAttribute("error", "El Rol de Usuario no se ha modificado!!");
+      }
+      return"redirect:";
+  }
+  
+  @GetMapping("/bajaUsuario/{id}")
+  public String bajaUsuario(RedirectAttributes attr, @PathVariable String id){
+      
+      try{
+         usuarioServicio.bajaUsuario(id);
+         attr.addFlashAttribute("exito", "El Usuario se ha dado de Baja exitosamente!!");
+      }catch(Exception e){
+        attr.addFlashAttribute("error", e.getMessage());  
+      }
+      
+      return"redirect:";
+  }
+  
+  @GetMapping("/altaUsuario/{id}")
+  public String altaUsuario(RedirectAttributes attr, @PathVariable String id){
+      
+      try{
+         usuarioServicio.bajaUsuario(id);
+         attr.addFlashAttribute("exito", "El Usuario se ha dado de Alta exitosamente!!");
+      }catch(Exception e){
+        attr.addFlashAttribute("error", e.getMessage());  
+      }
+      
+      return"redirect:";
+  }
 }
