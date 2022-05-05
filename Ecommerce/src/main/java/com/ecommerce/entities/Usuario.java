@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Usuario {
@@ -25,23 +26,21 @@ public class Usuario {
     private String email;
     private String password;
     private boolean activo;
-    
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaAltaUsuario;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaBajaUsuario;
-    
+
     @Enumerated(EnumType.STRING)
     private RolUsuario rolUsuario;
     @OneToOne
     private Imagen imagen;
-    
+
     public Usuario() {
     }
 
-    public Usuario(String id, String nombre, String apellido, String direccion, String email, String password, boolean activo, Date fechaAltaUsuario, Date fechaBajaUsuario, RolUsuario rolUsuario) {
-        this.id = id;
+    public Usuario(String nombre, String apellido, String direccion, String email, String password, boolean activo,  Date fechaAltaUsuario, Date fechaBajaUsuario, RolUsuario rolUsuario, Imagen imagen) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.direccion = direccion;
@@ -51,6 +50,7 @@ public class Usuario {
         this.fechaAltaUsuario = fechaAltaUsuario;
         this.fechaBajaUsuario = fechaBajaUsuario;
         this.rolUsuario = rolUsuario;
+        this.imagen = imagen;
     }
 
     public String getId() {
@@ -140,6 +140,4 @@ public class Usuario {
     public void setImagen(Imagen imagen) {
         this.imagen = imagen;
     }
-
-    
 }
