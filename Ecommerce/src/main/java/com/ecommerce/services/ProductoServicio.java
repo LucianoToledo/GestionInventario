@@ -1,5 +1,6 @@
 package com.ecommerce.services;
 
+import com.ecommerce.Errores.ErrorServicio;
 import com.ecommerce.entities.Producto;
 import com.ecommerce.enums.TipoProducto;
 import com.ecommerce.repositories.ProductoRepositorio;
@@ -123,17 +124,43 @@ public class ProductoServicio {
         }
     }
 
-    @Transactional(rollbackFor = Exception.class)      //Falta la logica para poder actualizar el stock
+    @Transactional(rollbackFor = Exception.class)      
     public void actualizarStockProducto(String id, int stock) throws Exception {
+        
+        if (stock < 1) {
+            throw new ErrorServicio("Error: El stock ingresado es menor o igual a 0");
+        }
         Producto producto = buscarPorId(id);
-
+        
         if (producto.isActivo()) {
-            producto.getStock();
-            producto.setStock(stock);
-            
+            producto.setStock(producto.getStock()+stock);
             productoRepositorio.save(producto);
+        }else{
+            throw new ErrorServicio("Error: No se puede actualizar el stock, el producto "+producto.getNombre()+" se encuentra dado de baja");
         }
     }
+    
+    @Transactional(rollbackFor = Exception.class)
+    public void venderProducto(String id, int stock) throws Exception {
+        
+        if (stock < 1) {
+            throw new ErrorServicio("Error: El stock ingresado es menor o igual a 0");
+        }
+        
+        Producto producto = buscarPorId(id);
+        
+        if (producto.getStock() < stock){
+            throw new ErrorServicio("Error: No se puede restar más del stock.");
+        }
+        
+        if (producto.isActivo()) {
+            producto.setStock(producto.getStock()-stock);
+            productoRepositorio.save(producto);
+        }else{
+            throw new ErrorServicio("Error: No se puede actualizar el stock, el producto "+producto.getNombre()+" se encuentra dado de baja");
+        }
+    }
+    
     
     @Transactional(readOnly = true)
     public List<Producto> listar(){
