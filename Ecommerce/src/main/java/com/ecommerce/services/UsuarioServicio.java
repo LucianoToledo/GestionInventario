@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UsuarioServicio implements UserDetailsService {
@@ -32,9 +33,12 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     private SendMailService sendMailService;
+    
+    @Autowired
+    private ImagenServicio imagenServicio;
 
     @Transactional(rollbackFor = {Exception.class})
-    public void agregarUsuario(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword) throws Exception {
+    public void agregarUsuario(String nombre, String apellido, String direccion, String email, String password, String confirmarPassword, MultipartFile foto) throws Exception {
         validarDatos(nombre, apellido, direccion, email, password, confirmarPassword);
         String passwordEncriptado = new BCryptPasswordEncoder().encode(password);
 
@@ -44,6 +48,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setDireccion(direccion);
         usuario.setEmail(email);
         usuario.setPassword(passwordEncriptado);
+        usuario.setImagen(imagenServicio.crearImagen(foto));
         usuario.setActivo(true);
         usuario.setFechaAltaUsuario(new Date());
         usuario.setFechaBajaUsuario(null);
@@ -59,12 +64,13 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public void modificarUsuario(String id, String nombre, String apellido, String direccion, String email, String password, String confirmarPassword, RolUsuario rolUsuario) throws Exception {
+    public void modificarUsuario(String id, String nombre, String apellido, String direccion, String email, String password, String confirmarPassword, MultipartFile foto) throws Exception {
         Usuario usuario = buscarPorId(id);
 
         usuario.setNombre(nombre);
         usuario.setApellido(apellido);
         usuario.setDireccion(direccion);
+        usuario.setImagen(imagenServicio.editarImagen(usuario.getImagen().getId(), foto));
 
         usuarioRepositorio.save(usuario);
     }
@@ -161,9 +167,9 @@ public class UsuarioServicio implements UserDetailsService {
         if (email == null || email.isEmpty()) {
             throw new ErrorServicio("Error: El email del Usuario no puede ser nulo.");
         }
-        if(email.equals(buscarPorEmail(email).getEmail())){
-            throw new ErrorServicio("Error: El email "+email+" ya se encuentra registrado.");
-        }
+//        if(usuarioRepositorio.buscarPorEmail(email) != null){
+//            throw new ErrorServicio("Error: El email "+email+" ya se encuentra registrado.");
+//        }
         if (password == null || password.isEmpty()) {
             throw new ErrorServicio("Error: La contraseña del Usuario no puede ser nula.");
         }
