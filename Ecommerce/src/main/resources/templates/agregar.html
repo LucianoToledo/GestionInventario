@@ -19,7 +19,9 @@
         <!--AGREGAR PRODUCTO-->
         <div class="container mt-5">
             <h1>Agregar producto</h1>
-            <form action="" class="row g-3 needs-validation" novalidate method="post">
+            <h3 th:if="${exito !=null}" th:text="${exito}" class="text-success"></h3>
+            <h3 th:if="${error !=null}" th:text="${error}" class="text-danger"></h3>
+            <form class="row g-3 needs-validation" novalidate  th:action= "@{/producto/crear}" method="Post">
                 <div class="col-md-6">
                     <label for="nombre" class="form-label">Nombre producto</label>
                     <input type="text" class="form-control" id="nombre" name="descripcion" required>

@@ -159,5 +159,6 @@ public class UsuarioControlador {
         modelo.put("usuarios", usuarios);
 
         return "pruebaAdminVistaListaUsuarios";
+
     }
 }
