@@ -18,13 +18,13 @@ public class ProductoServicio {
     private ProductoRepositorio productoRepositorio;
 
     @Transactional(rollbackFor = Exception.class)
-    public void crearProducto(String descripcion, int stock, float precioVenta, TipoProducto tipoProducto) throws Exception {//Se borran fecha alta, baja y activo
+    public void crearProducto(String nombre, int stock, float precioVenta, TipoProducto tipoProducto) throws Exception {//Se borran fecha alta, baja y activo
 
         
-        validarProducto(descripcion, stock, precioVenta, tipoProducto);
+        validarProducto(nombre, stock, precioVenta, tipoProducto);
         
         Producto producto = new Producto();
-        producto.setDescripcion(descripcion);
+        //producto.setDescripcion(descripcion);
         producto.setStock(stock);
         producto.setPrecioVenta(precioVenta);
         producto.setTipoProducto(tipoProducto);
@@ -35,9 +35,9 @@ public class ProductoServicio {
         productoRepositorio.save(producto);
     }
 
-    public void validarProducto(String descripcion, Integer stock, Float precioVenta, TipoProducto tipoProducto) throws Exception {
+    public void validarProducto(String nombre, Integer stock, Float precioVenta, TipoProducto tipoProducto) throws Exception {
 
-        if (descripcion == null || descripcion.isEmpty()) {
+        if (nombre == null || nombre.isEmpty()) {
             throw new Exception("Debe ingresar una descripción del producto.");
         }
 

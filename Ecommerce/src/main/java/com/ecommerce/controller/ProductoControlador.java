@@ -24,18 +24,30 @@ public class ProductoControlador {
     
     @GetMapping("/crear")
     public String crear(){
-        return"";
+        return "agregar.html";
     }
     
     @PostMapping("/crear")
-    public String crear(ModelMap modelo, @RequestParam String descripcion, @RequestParam int stock, 
+    public String crear(ModelMap modelo, @RequestParam String nombre, @RequestParam int stock, 
             @RequestParam float precioVenta, @RequestParam TipoProducto tipoProducto){
         
         try{
-            productoServicio.crearProducto(descripcion, stock, precioVenta, tipoProducto);
-            modelo.put("exito", "El producto '" + descripcion + "'se cargó exisotasemnte");
+            productoServicio.crearProducto(nombre, stock, precioVenta, tipoProducto);
+            modelo.put("exito", "El producto '" + nombre + "'se cargó exisotasemnte");
         }catch(Exception e){
              modelo.put("error", e.getMessage() );
+        }
+        return"agregar.html";
+    }
+    
+    @GetMapping("/buscarPorNombre")
+    public String buscarPorNombre(ModelMap modelo, @RequestParam String query){
+        
+        try{
+           productoServicio.buscarPorNombre(query);
+           modelo.put("exito", "El Producto se ha encontrado");
+        }catch(Exception e){
+            modelo.put("error", "No se encontró Producto con ese nombre");
         }
         return"";
     }
@@ -100,7 +112,20 @@ public class ProductoControlador {
             productoServicio.actualizarStockProducto(id, stock);
             attr.addFlashAttribute("exito", "El stock del Producto se actualizó exitosamente!!");
         }catch(Exception e){
-            attr.addFlashAttribute("error", "El stock del Producto no se ha actualizado!!");
+            attr.addFlashAttribute("error", e.getMessage());
+        }
+        return"redirect:";
+    }
+    
+    //Ver si se hace con Modal o vista nueva
+    @GetMapping("/venderProducto")
+    public String venderProducto(RedirectAttributes attr, @PathVariable String id, @RequestParam int stock){
+        
+        try{
+           productoServicio.venderProducto(id, stock);
+           attr.addFlashAttribute("exito", "El stock del Producto se actualizó exitosamente!!");
+        }catch(Exception e){
+           attr.addFlashAttribute("error", e.getMessage()); 
         }
         
         return"redirect:";
@@ -113,15 +138,5 @@ public class ProductoControlador {
           return "";        
     }
     
-    @GetMapping("/buscarPorNombre")
-    public String buscarPorNombre(ModelMap modelo, @RequestParam String query){
-        
-        try{
-           productoServicio.buscarPorNombre(query);
-           modelo.put("exito", "El Producto se ha encontrado");
-        }catch(Exception e){
-            modelo.put("error", "No se encontró Producto con ese nombre");
-        }
-        return"";
-    }
+  
 }

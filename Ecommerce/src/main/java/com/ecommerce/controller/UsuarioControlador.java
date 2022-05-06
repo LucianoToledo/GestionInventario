@@ -109,7 +109,7 @@ public class UsuarioControlador {
       return"redirect:";
   }
   
-  //Get o Post??
+  
   @GetMapping("/buscarPorRol")
   public String buscarPorRol(ModelMap modelo, @RequestParam RolUsuario rol){
       
@@ -119,7 +119,7 @@ public class UsuarioControlador {
       return"";
   }
   
-  //Get o Post??
+  
   @GetMapping("/buscarPorNombreApellidoEmail")
   public String buscarPorNombreApellidoEmail(ModelMap modelo, @RequestParam String query){
       
@@ -129,7 +129,7 @@ public class UsuarioControlador {
       return"";
   }
   
-  //Get o Post??
+  
   @GetMapping("/buscarPorEmail")
   public String buscarPorEmail(ModelMap modelo, @RequestParam String email){
       
@@ -142,11 +142,11 @@ public class UsuarioControlador {
       return"";
   }
   
-  @GetMapping("/listarUsuarios")
+  @GetMapping("/listaUsuarios")
   public String listaUsuarios(ModelMap modelo){
           List<Usuario> usuarios = usuarioServicio.listarUsuarios();
           modelo.put("usuarios", usuarios);
           
-       return "";        
+       return "lista-usuario.html";        
     }
 }
