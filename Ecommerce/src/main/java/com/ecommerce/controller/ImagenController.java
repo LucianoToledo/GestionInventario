@@ -23,21 +23,21 @@ public class ImagenController {
     private UsuarioServicio usuarioServicio;
     
     @GetMapping("/producto")
-    public ResponseEntity<byte[]> imagenProducto(@RequestParam String idProducto){
+    public ResponseEntity<byte[]> imagenProducto(@RequestParam String id){
         try {
-            Producto producto = productoServicio.buscarPorId(idProducto);
+            Producto producto =productoServicio.buscarPorId(id);
+            
             if (producto.getImagen() == null) {
-                throw new Exception("Imagen no encontrada");
+                throw new Exception("No se encontro la foto");
             }
             
-            byte[] imagen = producto.getImagen().getContenido();
-            HttpHeaders headers= new HttpHeaders();
+            byte[] foto = producto.getImagen().getContenido();
             
+            HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.IMAGE_JPEG);
             
-            return new ResponseEntity<>(imagen,headers,HttpStatus.OK);
-            
-        } catch (Exception e) {
+            return new ResponseEntity<>(foto, headers, HttpStatus.OK);
+        } catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
