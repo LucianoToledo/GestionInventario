@@ -1,0 +1,66 @@
+
+#nav-superior{
+    width: 100%;
+    top: 0;
+    background: brown;
+    height: 15vh;
+    background-color: darkgray;
+}
+
+#nav_superior ul li {
+    display: inline-block;
+}
+
+
+.img-fluid {
+    width: 50%;
+    height: 50%;
+}
+
+
+.izquierda{
+    height: 100%;
+}
+
+.derecha {
+    width: 100%;
+    height: 100vh;
+    float: right;
+}
+
+#pantalla-dividida {
+    display: flex;
+    padding: 50px;
+    height: 50%;
+}
+
+.tabla1{
+    margin-left: 0%;
+    padding: 25px;
+    text-align: top;
+}
+
+.tabla2 {
+    width: 500px;
+    padding-right: 150px;
+    margin-left: 0;
+}
+.btn{
+    width: 200px;
+}
+
+
+.logo {
+    width: 25px;
+    height: 25px;
+    padding: 5px;
+}
+
+.texto {
+    text-align: left;
+}
+
+
+.linea {
+    border-bottom: solid 1px black
+}
