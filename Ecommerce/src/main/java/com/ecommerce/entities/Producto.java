@@ -130,4 +130,11 @@ public class Producto {
         this.imagen = imagen;
     }
 
+    @Override
+    public String toString() {
+        return "Producto{" + "id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", stock=" + stock + ", precioVenta=" + precioVenta + ", tipoProducto=" + tipoProducto + ", activo=" + activo + ", fechaAlta=" + fechaAlta + ", fechaBaja=" + fechaBaja + ", imagen=" + imagen + '}';
+    }
+    
+    
+
 }

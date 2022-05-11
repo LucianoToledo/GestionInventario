@@ -1,4 +1,3 @@
-
 package com.ecommerce.controller;
 
 import com.ecommerce.Errores.ErrorServicio;
@@ -19,72 +18,63 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 @RequestMapping("/factura")
 public class FacturaControlador {
-    
+
     @Autowired
     private FacturaServicio facturaServicio;
     @Autowired
     private UsuarioServicio usuarioServicio;
-    
-    
-    
-   @GetMapping("/crear")
-   public String factura(ModelMap modelo){
-       List<Usuario> usuarios = usuarioServicio.listarUsuarios();
-       modelo.put("usuarios", usuarios);
-       return "factura.html";
-   }
-    
-   @PostMapping("/crear")
-   public String crear(ModelMap modelo, @RequestParam String idUsuario, @RequestParam List<Producto> productos, @RequestParam EstadoFactura estadoFactura){
-       
-       try {
-       facturaServicio.crear(idUsuario, productos, estadoFactura);
-       modelo.put("alta", "La factura ha sido cargada con éxito");
-       } catch (Exception e) {
-           modelo.put("error", e.getMessage());
-       }
-       return "factura-crear.html";
-   }
-   
+
+    @GetMapping("/crear")
+    public String factura(ModelMap modelo) {
+        List<Usuario> usuarios = usuarioServicio.listarUsuarios();
+        modelo.put("usuarios", usuarios);
+        return "factura.html";
+    }
+
+    @PostMapping("/crear")
+    public String crear(ModelMap modelo, @RequestParam String idUsuario, @RequestParam List<Producto> productos, @RequestParam EstadoFactura estadoFactura) {
+
+        try {
+            facturaServicio.crear(idUsuario, productos, estadoFactura);
+            modelo.put("alta", "La factura ha sido cargada con éxito");
+        } catch (Exception e) {
+            modelo.put("error", e.getMessage());
+        }
+        return "factura-crear.html";
+    }
+
     @GetMapping("/alta/{idFactura}")
-   public String alta(RedirectAttributes attr, @PathVariable String idFactura, @RequestParam String idUsuario) throws ErrorServicio{
-       try {
-           facturaServicio.alta(idFactura);
-           attr.addFlashAttribute("alta", "La factura ha sido dada de alta");
-       } catch (Exception e) {
-           attr.addFlashAttribute("error", e.getMessage());
-       }
-       return "redirect: factura-alta.html";
-       
-   }
-   
-   @GetMapping("/baja")
-   public String baja(RedirectAttributes attr, @RequestParam String idFactura, @RequestParam String idUsuario) throws ErrorServicio{
-       try {
-           facturaServicio.baja(idFactura);
-           attr.addFlashAttribute("baja", "La factura ha sido dada de baja");
-       } catch (Exception e) {
-           attr.addFlashAttribute("error", e.getMessage());
-       }
-       return "redirect: factura-baja.html";
-       
-   }
-   
-   @GetMapping("/lista")
-   public String lista(ModelMap modelo){
-       List<Factura> facturas = facturaServicio.listar();
-       modelo.put("lista", facturas);
-       return "lista-factura.html";
-   }
-       
-       
-       
-       
-       
- 
-    
+    public String alta(RedirectAttributes attr, @PathVariable String idFactura) throws ErrorServicio {
+        try {
+            facturaServicio.alta(idFactura);
+            attr.addFlashAttribute("alta", "La factura ha sido dada de alta");
+        } catch (Exception e) {
+            attr.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect: factura-alta.html";
+
+    }
+
+    @GetMapping("/baja")
+    public String baja(RedirectAttributes attr, @RequestParam String idFactura) throws ErrorServicio {
+        try {
+            facturaServicio.baja(idFactura);
+            attr.addFlashAttribute("baja", "La factura ha sido dada de baja");
+        } catch (Exception e) {
+            attr.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect: factura-baja.html";
+
+    }
+
+    @GetMapping("/lista")
+    public String lista(ModelMap modelo) {
+        List<Factura> facturas = facturaServicio.listar();
+        modelo.put("lista", facturas);
+        return "lista-factura.html";
+    }
+
 }
