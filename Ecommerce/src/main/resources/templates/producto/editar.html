@@ -19,35 +19,35 @@
         <!--AGREGAR PRODUCTO-->
         <div class="container mt-5">
             
-        <a href="#" class="m-5 link-primary fs-5"
+        <a th:href="@{/producto/lista}" class="m-5 link-primary fs-5"
         ><i class="fa-solid fa-arrow-left-long"></i> Volver al listado de
         productos</a
       >
             <h1>Editar producto</h1>
-            <form action="" class="row g-3 needs-validation" novalidate method="post">
-                <input type="text" value="id" name="id">
+            <form th:action="@{/producto/editar}" th:object="${producto}" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate method="post">
+                <input type="hidden" value="id" name="id" th:value="${producto.id}">
                 <div class="col-md-6">
                     <label for="nombre" class="form-label">Nombre producto</label>
-                    <input type="text" class="form-control" id="nombre" name="descripcion" required>
+                    <input type="text" class="form-control" id="nombre" name="nombre" th:value="${producto.nombre}" required>
                     <div class="valid-feedback">Campo validado</div>
                     <div class="invalid-feedback">Complete los datos</div>
                 </div>
                 <div class="col-md-6">
                     <label for="stock" class="form-label">Stock del producto</label>
-                    <input type="text" class="form-control" id="stock" name="stock" required>
+                    <input type="text" class="form-control" id="stock" name="stock" th:value="${producto.stock}" required>
                     <div class="valid-feedback">Campo validado</div>
                     <div class="invalid-feedback">Complete los datos</div>
                 </div>
                 <div class="col-md-6">
                     <label for="precio" class="form-label">Ingresar precio del producto</label>
-                    <input type="text" class="form-control" id="nombre" name="precio" required>
+                    <input type="text" class="form-control" id="nombre" name="precioVenta" th:value="${producto.precioVenta}" required>
                     <div class="valid-feedback">Campo validado</div>
                     <div class="invalid-feedback">Complete los datos</div>
                 </div>
                 <div class="col-md-6">
                     <label for="tipo">Tipo de producto</label>
-                    <select name="tipoProducto" id="tipo" class="form-select" required>
-                        <option selected disabled value="">Seleccionar el tipo de producto</option>
+                    <select name="tipoProducto" id="tipo"  class="form-select" th:value="${producto.tipoProducto}" required>
+                        <option selected disabled value="" th:text="${producto.tipoProducto}">Seleccionar el tipo de producto</option>
                         <option value="Lacteo">Lacteo</option>
                         <option value="Fiambre">Fiambre</option>
                         <option value="Bebida">Bebida</option>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="archivo" class="form-label">Seleccionar archivo</label>
-                    <input type="file" id="archivo" name="imagen" class="form-control" required>
+                    <input type="file" id="archivo" name="archivo" class="form-control" required>
                     <div class="valid-feedback">Campo validado</div>
                     <div class="invalid-feedback">Complete los datos</div>
                 </div>

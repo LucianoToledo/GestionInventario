@@ -1,6 +1,7 @@
 package com.ecommerce.services;
 
 import com.ecommerce.Errores.ErrorServicio;
+import com.ecommerce.entities.Imagen;
 import com.ecommerce.entities.Producto;
 import com.ecommerce.enums.TipoProducto;
 import com.ecommerce.repositories.ProductoRepositorio;
@@ -10,34 +11,65 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ProductoServicio {
 
     @Autowired
     private ProductoRepositorio productoRepositorio;
+    @Autowired
+    private ImagenServicio imagenServicio;
 
     @Transactional(rollbackFor = Exception.class)
-    public void crearProducto(String descripcion, int stock, float precioVenta, TipoProducto tipoProducto) throws Exception {//Se borran fecha alta, baja y activo
+    public void crearProducto(String nombre, String stock, String precioVenta, String descripcion,
+            String tipoProducto,MultipartFile archivo) throws Exception {//Se borran fecha alta, baja y activo
 
         
-        validarProducto(descripcion, stock, precioVenta, tipoProducto);
+        validarProducto(nombre, stock, precioVenta, tipoProducto);
         
         Producto producto = new Producto();
+        //producto.setDescripcion(descripcion);
+        producto.setNombre(nombre);
+        producto.setStock(Integer.parseInt(stock));
+        producto.setPrecioVenta(Float.parseFloat(precioVenta));
+        producto.setTipoProducto(verificarProducto(tipoProducto));
         producto.setDescripcion(descripcion);
-        producto.setStock(stock);
-        producto.setPrecioVenta(precioVenta);
-        producto.setTipoProducto(tipoProducto);
         producto.setActivo(true);
         producto.setFechaAlta(new Date());
-        producto.setFechaBaja(null);
-
+        
+        Imagen imagen = imagenServicio.crearImagen(archivo);
+        producto.setImagen(imagen);
+        
         productoRepositorio.save(producto);
     }
+    
+    private TipoProducto verificarProducto(String tipo){
+        if (tipo.equals("Bebida")) {
+            return TipoProducto.Bebida;
+        }else{
+            return TipoProducto.Limpieza;
+        }
+    }
+    
+    @Transactional
+    public void checkEstado(String id) throws Exception{
+        Producto producto = buscarPorId(id);
+        if(producto.isActivo()) {
+            producto.setActivo(false);
+            producto.setFechaBaja(new Date());
+            producto.setFechaAlta(null);
+        }else{
+            producto.setActivo(true);
+            producto.setFechaAlta(new Date());
+            producto.setFechaBaja(null);
+        }
+        productoRepositorio.save(producto);
+    }
+    
+    public void validarProducto(String nombre, String stock, String precioVenta, String tipoProducto) throws Exception {
 
-    public void validarProducto(String descripcion, Integer stock, Float precioVenta, TipoProducto tipoProducto) throws Exception {
-
-        if (descripcion == null || descripcion.isEmpty()) {
+        if (nombre == null || nombre.isEmpty()) {
             throw new Exception("Debe ingresar una descripción del producto.");
         }
 

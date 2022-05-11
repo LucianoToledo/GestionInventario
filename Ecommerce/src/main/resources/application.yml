@@ -9,6 +9,7 @@ spring:
                 starttls:
                     required: true
                     enable: true
+                    
     username: ulyssapascal21@gmail.com
     password: Di$3n02021
   datasource: 
@@ -29,5 +30,10 @@ server:
   error:
     whitelabel:
       enabled: false
-
-
+#mvc:
+#    contentnegotiation:
+#        favor-parameter: true
+#                          
+#    media-types:
+#            pdf: application/pdf   
+                 

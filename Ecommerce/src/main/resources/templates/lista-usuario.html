@@ -24,89 +24,95 @@ and open the template in the editor.
         <header th:insert="/navbar :: menu-navegacion"></header>
         <!--NAVBAR-->
 
-        <!--ALERTA-->
-        <div th:if="${session.productocreado}">
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong th:text="${session.productocreado}"></strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-        <!--ALERTA-->
 
         <!--TABLAS DE PRODUCTOS-->
         <div class="text-center">
-            <h1>Listados de productos</h1>
+            <h1>Listado de Usuarios</h1>
         </div>
-        <table class="table table-responsive table-striped text-center">
+        <table class="table table-responsive table-striped text-center" th:action="@{/usuario/listaUsuarios}">
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Precio Venta</th>
-                    <th>Stock</th>
-                    <th>Estado</th>
+                    <th>Apellido</th>
+                    <th>Dirección</th>
+                    <th>Email</th>
                     <th>Imagen</th>
                     <th>
-                        <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Crear producto</a>
+                        <!--<a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar usuario</a>-->
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="p: ${productos}">
-                    <td th:text="${p.nombre}"></td>
-                    <td th:text="${p.precioVenta}"></td>
-                    <td th:text="${p.stock}"></td>
-                    <td th:text="${p.activo == true} ? 'Activo' : 'Desactivo'"></td>
+                <tr>
+                    <td>gggg</td>
+                    <td>kkkk</td>
+                    <td>dfgdf</td>
+                    <td>fgsdfgsd</td>
                     <td>
-                        <img th:src="${'/imagen/producto?id=' + p.id}" width="50">
+                        <img src="https://www.kindpng.com/picc/m/26-261549_gaseosa-coca-cola-botella-descartable-coca-cola-600.png" width="100">
                     </td>
                     <td>
                         <div class="container">
                             <div class="row justify-content-md-center">
                                 <div class="col">
-                                    <a th:href="@{/producto/detalles/{id} (id = ${p.id})}" class="btn btn-primary" title="Detalles"><i class="fa-solid fa-eye"></i></a>
-                                    <a th:href="@{/producto/editar/{id} (id = ${p.id})}" class="btn btn-warning" title="Editar"><i class="fa-solid fa-pencil"></i></a>
+                                    <a href="#" class="btn btn-primary" title="Detalles"><i class="fa-solid fa-eye"></i></a>
+                                    <a href="#" class="btn btn-warning" title="Editar"><i class="fa-solid fa-pencil"></i></a>
+                                    <a href="#" class="btn btn-danger" onclick="return eliminar()" title="Eliminar"><i class="fa-solid fa-trash"></i></a>
                                 </div>
                             </div>
                         </div>
+                    </td>
                 </tr>
             </tbody>
         </table>
         <!--TABLAS DE PRODUCTOS-->
         <!--MODAL-->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+       <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-center" id="exampleModalLabel">Crear nuevo producto</h5>
+                        <h5 class="modal-title text-center" id="exampleModalLabel">Agregar nuevo Usuario</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form th:action="@{/producto/crear}" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
+                        <form action="" method="post" class="needs-validation" novalidate enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="nombre" class="form-label">Nombre del producto</label>
+                                <label for="nombre" class="form-label">Nombre</label>
                                 <input type="text" class="form-control" name="nombre" required>   
                                 <div class="valid-feedback">Campo validado</div>
                                 <div class="invalid-feedback">Complete los datos</div>
 
                             </div>
                             <div class="form-group">
-                                <label for="stock" class="form-label">Stock del producto</label>
-                                <input type="text" class="form-control" name="stock" required>   
+                                <label for="stock" class="form-label">Apellido</label>
+                                <input type="text" class="form-control" name="apellid" required>   
                                 <div class="valid-feedback">Campo validado</div>
                                 <div class="invalid-feedback">Complete los datos</div>
                             </div>
                             <div class="form-group">
-                                <label for="precio" class="form-label">Precio del producto</label>                                
-                                <input type="text" class="form-control" name="precioVenta" required>     
+                                <label for="precio" class="form-label">Dirección</label>                                
+                                <input type="text" class="form-control" name="direccion" required>     
+                                <div class="valid-feedback">Campo validado</div>
+                                <div class="invalid-feedback">Complete los datos</div>                                  
+                            </div>
+                            <div class="form-group">
+                                <label for="precio" class="form-label">Correo electrónico</label>                                
+                                <input type="text" class="form-control" name="email" required>     
+                                <div class="valid-feedback">Campo validado</div>
+                                <div class="invalid-feedback">Complete los datos</div>                                  
+                            </div>
+                            <div class="form-group">
+                                <label for="precio" class="form-label">Ingrese Password</label>                                
+                                <input type="text" class="form-control" name="password" required>     
                                 <div class="valid-feedback">Campo validado</div>
                                 <div class="invalid-feedback">Complete los datos</div>                                  
                             </div>
                             <div>
-                                <label for="tipo" class="form-label">Seleccionar el tipo de producto</label>
-                                <select class="form-select form-select-sm" name="tipoProducto" aria-label=".form-select-sm example" required>
+                                <label for="tipo" class="form-label">Seleccione Rol Usuario</label>
+                                <select class="form-select form-select-sm" name="rolUsuario" aria-label=".form-select-sm example" required>
                                     <option selected>Seleccionar</option>
-                                    <option value="Bebida">Bebida</option>
-                                    <option value="Limpieza">Limpieza</option>
+                                    <option value="Bebida">Admin</option>
+                                    <option value="Limpieza">Cliente</option>
                                 </select>   
                                 <div class="valid-feedback">Campo validado</div>
                                 <div class="invalid-feedback">Complete los datos</div>
@@ -114,16 +120,16 @@ and open the template in the editor.
                             <div class="form-group">          
                                 <label for="exampleFormControlFile1">Seleccionar imagen</label>
                                 <input type="file" class="form-control" id="exampleFormControlFile1" name="archivo" required>
-
+                                   
                                 <div class="valid-feedback">Campo validado</div>
                                 <div class="invalid-feedback">Complete los datos</div>
                             </div>
                             <div class="form-group">
                                 <label for="descripcion" class="form-label">Descripcion del producto</label>
-                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3" required></textarea>   
+                                <textarea class="form-control" id="descripcion" rows="3" required></textarea>   
                                 <div class="valid-feedback">Campo validado</div>
                                 <div class="invalid-feedback">Complete los datos</div>
-                            </div>
+                            </div>-->
                             <div class="form-group mt-3">
                                 <input type="submit" class="btn btn-success btn-block" value="Crear producto">
                             </div>
@@ -140,6 +146,15 @@ and open the template in the editor.
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"
     ></script>
+    <script>
+        function eliminar(){
+            if (confirm("¿Eliminar producto?")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
     <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
@@ -162,5 +177,5 @@ and open the template in the editor.
                     })
         })()
     </script>
-
+        
 </html>

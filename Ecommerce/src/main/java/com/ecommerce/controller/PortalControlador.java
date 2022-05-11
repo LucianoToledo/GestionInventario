@@ -27,5 +27,9 @@ public class PortalControlador {
         }
         return "login.html";
     }
+    @GetMapping("/detalles")
+    public String detalles(){
+        return "detalles";
+    }
 
 }
