@@ -41,6 +41,8 @@
                     </div>
                     <h2 class="fw-bold text-center py-3">Registrarme</h2>
                     <form th:action="@{/usuario/registro}"   method="POST" class="row g-3 needs-validation" novalidate>
+                        <p th:text="${error}" style="color: red" ></p>
+                        <p th:text="${logout}" style="color: green" ></p>
                         <div class="mb-2">
                             <label for="nombre" class="form-label">Ingresar nombre</label>
                             <input type="text" class="form-control" name="nombre" required th:value="${nombre}">
