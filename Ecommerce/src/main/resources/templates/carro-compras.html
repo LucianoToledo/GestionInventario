@@ -22,12 +22,14 @@
                         <th>Producto</th>
                         <th>Cantidad</th>
                         <th>Precio</th>
+                        <th>Sub total</th>
+                        <th>Stock</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>productoItem</td>
+                        <td>Coca - cola</td>
                         <td>
                             <div class="d-flex justify-content-center mb-3">
 
@@ -35,7 +37,7 @@
                                     <i class="fa-solid fa-minus"></i>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="1" name="numero" class="form-control text-center" data-numero value="0" />
+                                    <input type="text" id="1" name="numero" class="form-control text-center" data-numero value="7" />
                                 </div>
                                 <div class="btn btn-success" data-mas>
                                     <i class="fa-solid fa-plus"></i>
@@ -43,38 +45,119 @@
 
                             </div>
                         </td>
-                        <td>precioItem</td>
-                        <td>iconoEliminar</td>
+                        <td data-precio>200</td>
+                        <td data-total>
+                            
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <p data-cantidad>10</p>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="text-danger fa-solid fa-trash"></a>
+                        </td>
                     </tr>
+                    <tr>
+                        <td>Fideo</td>
+                        <td>
+                            <div class="d-flex justify-content-center mb-3">
+
+                                <div class="btn btn-danger" data-menos="">
+                                    <i class="fa-solid fa-minus"></i>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="1" name="numero" class="form-control text-center" data-numero value="3" />
+                                </div>
+                                <div class="btn btn-success" data-mas>
+                                    <i class="fa-solid fa-plus"></i>
+                                </div>
+
+                            </div>
+                        </td>
+                        <td data-precio>100</td>
+                        <td data-total>
+                            
+                        </td>
+                        <td>
+                            <div class="d-flex justify-content-center">
+                                <p data-cantidad>5</p>
+                            </div>
+                        </td>
+                        <td>
+                            <a class="text-danger fa-solid fa-trash"></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Total</td>
+                        <td data-resultado>
+                            
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>
-        <button type="button" class="btn btn-primary" data-boton>
-            <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+        <button type="button" class="btn btn-success" data-boton>
+            <i class="fa-solid fa-basket-shopping"></i> Comprar
         </button>
     </form>
     <script>
-        const menos = document.querySelector("[data-menos]");
-        const mas = document.querySelector("[data-mas]");
-        const cantidad = document.querySelector("[data-cantidad]");
-        var contador = cantidad.innerText;
-        var num = 0;
-        mas.addEventListener("click", () => {
-            if (num == contador) {
-                document.querySelector("[data-numero]").value = contador;
+        const menos = document.querySelectorAll("[data-menos]");
+        const mas = document.querySelectorAll("[data-mas]");
+        const numero = document.querySelectorAll("[data-numero]");
+        const cantidad = document.querySelectorAll("[data-cantidad]");
+        const precio = document.querySelectorAll("[data-precio]");
+        const total = document.querySelectorAll("[data-total]");
+
+        const resultadoFinal = document.querySelector("[data-resultado]");
+
+        for (let i = 0; i < total.length; i++) {
+            total[i].innerHTML = precio[i].innerHTML * numero[i].value;
+            
+        }
+
+        for (let i = 0; i < mas.length; i++) {
+                    
+        mas[i].addEventListener("click", () => {
+            var num = numero[i].value;
+            
+            if (numero[i].value == cantidad[i].innerHTML) {
+                numero[i].value = cantidad[i].innerHTML;
                 return;
             }
-            num++;
-            document.querySelector("[data-numero]").value = num;
+            
+            numero[i].value = parseInt(numero[i].value) + 1;
+            total[i].innerHTML = precio[i].innerHTML * numero[i].value;
         });
-        menos.addEventListener("click", () => {
-            if (num <= 0) {
-                document.querySelector("[data-numero]").value = 0;
+            
+        }
+
+        for (let i = 0; i < menos.length; i++) {
+           
+            menos[i].addEventListener("click", () => {
+           var result = 0;     
+            if (numero[i].value <= 0) {
+                numero[i].value = 0;
+                
                 return;
             }
-            num--;
-            document.querySelector("[data-numero]").value = num;
-        });
+            numero[i].value -= 1;
+            total[i].innerHTML = precio[i].innerHTML * numero[i].value;
+            result += parseInt(total[i].innerHTML);  
+        });    
+        }
+
+        var result=0;
+        for (let i = 0; i < total.length; i++) {
+            result += parseInt(total[i].innerHTML);            
+        }
+        resultadoFinal.innerHTML = result;
+
     </script>
 </body>
 
