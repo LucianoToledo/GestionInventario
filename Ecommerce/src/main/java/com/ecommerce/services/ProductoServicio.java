@@ -182,7 +182,7 @@ public class ProductoServicio {
         Producto producto = buscarPorId(id);
         
         if (producto.getStock() < stock){
-            throw new ErrorServicio("Error: No se puede restar más del stock.");
+            throw new ErrorServicio("Error: No hay stock suficiente, cantidad de existencias - "+producto.getStock());
         }
         
         if (producto.isActivo()) {
