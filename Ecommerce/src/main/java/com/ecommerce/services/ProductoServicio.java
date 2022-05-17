@@ -23,11 +23,10 @@ public class ProductoServicio {
 
     @Transactional(rollbackFor = Exception.class)
     public void crearProducto(String nombre, String stock, String precioVenta, String descripcion,
-            String tipoProducto,MultipartFile archivo) throws Exception {//Se borran fecha alta, baja y activo
+            String tipoProducto, MultipartFile archivo) throws Exception {//Se borran fecha alta, baja y activo
 
-        
         validarProducto(nombre, stock, precioVenta, tipoProducto);
-        
+
         Producto producto = new Producto();
         //producto.setDescripcion(descripcion);
         producto.setNombre(nombre);
@@ -37,36 +36,53 @@ public class ProductoServicio {
         producto.setDescripcion(descripcion);
         producto.setActivo(true);
         producto.setFechaAlta(new Date());
-        
+
         Imagen imagen = imagenServicio.crearImagen(archivo);
         producto.setImagen(imagen);
-        
+
         productoRepositorio.save(producto);
     }
-    
-    private TipoProducto verificarProducto(String tipo){
+
+    @Transactional(rollbackFor = Exception.class)
+    public void actualizarProducto(String id, Integer stock, Float precioVenta, String tipoProducto) throws Exception {
+        Producto producto = productoRepositorio.getById(id);
+        if (producto == null) {
+            throw new Exception("No se encontro el producto");
+        }
+        try {
+            producto.setStock(stock);
+            producto.setPrecioVenta(precioVenta);
+            producto.setTipoProducto(verificarProducto(tipoProducto));
+            productoRepositorio.save(producto);
+
+        } catch (Exception e) {
+            System.out.println("Mensaje de error: " + e.getMessage());
+        }
+    }
+
+    private TipoProducto verificarProducto(String tipo) {
         if (tipo.equals("Bebida")) {
             return TipoProducto.Bebida;
-        }else{
+        } else {
             return TipoProducto.Limpieza;
         }
     }
-    
+
     @Transactional
-    public void checkEstado(String id) throws Exception{
+    public void checkEstado(String id) throws Exception {
         Producto producto = buscarPorId(id);
-        if(producto.isActivo()) {
+        if (producto.isActivo()) {
             producto.setActivo(false);
             producto.setFechaBaja(new Date());
             producto.setFechaAlta(null);
-        }else{
+        } else {
             producto.setActivo(true);
             producto.setFechaAlta(new Date());
             producto.setFechaBaja(null);
         }
         productoRepositorio.save(producto);
     }
-    
+
     public void validarProducto(String nombre, String stock, String precioVenta, String tipoProducto) throws Exception {
 
         if (nombre == null || nombre.isEmpty()) {
@@ -98,15 +114,15 @@ public class ProductoServicio {
             throw new Exception("No existe ese producto");
         }
     }
-    
+
     @Transactional(readOnly = true)
-    public List<Producto> buscarListaPorNombre(String query){ 
-        return  productoRepositorio.buscarListaPorNombre(query);
+    public List<Producto> buscarListaPorNombre(String query) {
+        return productoRepositorio.buscarListaPorNombre(query);
     }
-    
+
     @Transactional(readOnly = true)
-    public Producto buscarPorNombre(String query){ 
-        return  productoRepositorio.buscarPorNombre(query);
+    public Producto buscarPorNombre(String query) {
+        return productoRepositorio.buscarPorNombre(query);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -136,20 +152,6 @@ public class ProductoServicio {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void actualizarProducto(String id, String descripcion, Integer stock, Integer precioVenta, TipoProducto tipoProducto) throws Exception {
-        Producto producto = buscarPorId(id);
-
-        producto.setDescripcion(descripcion);
-        producto.setStock(stock);
-        producto.setPrecioVenta(precioVenta);
-        producto.setTipoProducto(tipoProducto);
-        producto.setActivo(true);
-        producto.setFechaAlta(new Date());
-
-        productoRepositorio.save(producto);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
     public void eliminarProducto(String id) throws Exception {
         Producto producto = buscarPorId(id);
 
@@ -160,46 +162,45 @@ public class ProductoServicio {
         }
     }
 
-    @Transactional(rollbackFor = Exception.class)      
+    @Transactional(rollbackFor = Exception.class)
     public void actualizarStockProducto(String id, int stock) throws Exception {
-        
+
         if (stock < 1) {
             throw new ErrorServicio("Error: El stock ingresado es menor o igual a 0");
         }
         Producto producto = buscarPorId(id);
-        
+
         if (producto.isActivo()) {
-            producto.setStock(producto.getStock()+stock);
+            producto.setStock(producto.getStock() + stock);
             productoRepositorio.save(producto);
-        }else{
-            throw new ErrorServicio("Error: No se puede actualizar el stock, el producto "+producto.getNombre()+" se encuentra dado de baja");
+        } else {
+            throw new ErrorServicio("Error: No se puede actualizar el stock, el producto " + producto.getNombre() + " se encuentra dado de baja");
         }
     }
-    
+
     @Transactional(rollbackFor = Exception.class)
     public void venderProducto(String id, int stock) throws Exception {
-        
+
         if (stock < 1) {
             throw new ErrorServicio("Error: La cantidad deseada no puede ser menor o igual a 0");
         }
-        
+
         Producto producto = buscarPorId(id);
-        
-        if (producto.getStock() < stock){
-            throw new ErrorServicio("Error: No hay stock suficiente, cantidad de existencias - "+producto.getStock());
+
+        if (producto.getStock() < stock) {
+            throw new ErrorServicio("Error: No hay stock suficiente, cantidad de existencias - " + producto.getStock());
         }
-        
+
         if (producto.isActivo()) {
-            producto.setStock(producto.getStock()-stock);
+            producto.setStock(producto.getStock() - stock);
             productoRepositorio.save(producto);
-        }else{
-            throw new ErrorServicio("Error: No se puede actualizar el stock, el producto "+producto.getNombre()+" se encuentra dado de baja");
+        } else {
+            throw new ErrorServicio("Error: No se puede actualizar el stock, el producto " + producto.getNombre() + " se encuentra dado de baja");
         }
     }
-    
-    
+
     @Transactional(readOnly = true)
-    public List<Producto> listar(){
-      return productoRepositorio.findAll();
+    public List<Producto> listar() {
+        return productoRepositorio.findAll();
     }
 }
