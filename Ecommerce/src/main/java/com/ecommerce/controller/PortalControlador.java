@@ -31,10 +31,4 @@ public class PortalControlador {
     public String detalles(){
         return "detalles";
     }
-    
-    @GetMapping("carrocompras")
-    public String carroDeCompras(){
-        return "carro-compras";
-    }
-
 }

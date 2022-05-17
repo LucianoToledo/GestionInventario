@@ -11,5 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface ProductoRepositorio extends JpaRepository<Producto, String> {
     
     @Query("Select p FROM Producto p WHERE p.nombre LIKE :nombre")
-    public List<Producto> buscarPorNombre(@Param("nombre") String nombre);
+    public List<Producto> buscarListaPorNombre(@Param("nombre") String nombre);
+    
+    @Query("Select p FROM Producto p WHERE p.nombre LIKE :nombre")
+    public Producto buscarPorNombre(@Param("nombre") String nombre);
 }

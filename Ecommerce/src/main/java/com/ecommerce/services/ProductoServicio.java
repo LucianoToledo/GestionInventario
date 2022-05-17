@@ -99,9 +99,13 @@ public class ProductoServicio {
         }
     }
     
+    @Transactional(readOnly = true)
+    public List<Producto> buscarListaPorNombre(String query){ 
+        return  productoRepositorio.buscarListaPorNombre(query);
+    }
     
     @Transactional(readOnly = true)
-    public List<Producto> buscarPorNombre(String query){ 
+    public Producto buscarPorNombre(String query){ 
         return  productoRepositorio.buscarPorNombre(query);
     }
 
@@ -176,7 +180,7 @@ public class ProductoServicio {
     public void venderProducto(String id, int stock) throws Exception {
         
         if (stock < 1) {
-            throw new ErrorServicio("Error: El stock ingresado es menor o igual a 0");
+            throw new ErrorServicio("Error: La cantidad deseada no puede ser menor o igual a 0");
         }
         
         Producto producto = buscarPorId(id);
