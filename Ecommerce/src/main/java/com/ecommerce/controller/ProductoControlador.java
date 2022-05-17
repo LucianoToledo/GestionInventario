@@ -67,17 +67,16 @@ public class ProductoControlador {
 
     @PostMapping("/editar")
     public String actualizar(@RequestParam String id, @RequestParam String nombre, @RequestParam String stock,
-            @RequestParam String precioVenta, @RequestParam String tipoProducto, @RequestParam String descripcion,
-            @RequestParam MultipartFile archivo) {
-        System.out.println(id + " - " + nombre + " - " + stock + " - " + precioVenta + " - " + tipoProducto
-                + " - " + descripcion + " - " + archivo);
-        /**
-         * try{ productoServicio.actualizarProducto(id, descripcion, stock,
-         * precioVenta, tipoProducto); attr.addFlashAttribute("exito", "El
-         * Producto ha sido actualizado!!"); }catch(Exception e){
-         * attr.addFlashAttribute("error", "No se ha actualizado el Producto");
-       }*
-         */
+            @RequestParam String precioVenta, @RequestParam String tipoProducto, RedirectAttributes attr) {
+
+        try {
+            productoServicio.actualizarProducto(id, Integer.parseInt(stock),
+                    Float.parseFloat(precioVenta), tipoProducto);
+            attr.addFlashAttribute("exito", "El Producto ha sido actualizado!!");
+        } catch (Exception e) {
+            System.out.println("El error es: " + e.getMessage());
+            attr.addFlashAttribute("error", "No se ha actualizado el Producto");
+        }
         return "redirect:/producto/lista";
     }
 
