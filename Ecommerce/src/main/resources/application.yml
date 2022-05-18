@@ -1,4 +1,7 @@
-spring: 
+spring:
+#  session: 
+#    jdbc: 
+#      initialize-schema: always
   mail: 
     host: smtp.gmail.com
     port: 587
@@ -10,8 +13,8 @@ spring:
                     required: true
                     enable: true
                     
-    username: ulyssapascal21@gmail.com
-    password: Di$3n02021
+    username: ecommerceemvipi@gmail.com
+    password: papafritas
   datasource: 
     url: jdbc:mysql://localhost:3306/ecommerce?allowPublicKeyRetrieval=true&useSSL=false&useTimezone=true&serverTimezone=GMT&characterEncoding=UTF-8
     username: root
@@ -30,10 +33,3 @@ server:
   error:
     whitelabel:
       enabled: false
-#mvc:
-#    contentnegotiation:
-#        favor-parameter: true
-#                          
-#    media-types:
-#            pdf: application/pdf   
-                 

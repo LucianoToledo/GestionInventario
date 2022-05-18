@@ -40,6 +40,7 @@ public class UsuarioControlador {
             usuarioServicio.agregarUsuario(nombre, apellido, direccion, email, password, confirmarPassword, foto);
             modelo.put("exito", "El Usuario '" + nombre + apellido + "' se agregó exitosamente");
         } catch (Exception ex) { //el "ex" no se esta usando, se deberia usar para traer el mensaje del servicio de usuario ex.getMessage()
+            System.out.println("ex = " + ex.getMessage());
             modelo.put("error", ex.getMessage()); //el mensaje deberia traerlo del servicio de usuario
         }
         return "login.html";

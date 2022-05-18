@@ -1,6 +1,7 @@
 package com.ecommerce.entities;
 
 import com.ecommerce.enums.RolUsuario;
+import java.io.Serializable;
 import java.util.Date;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -13,10 +14,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
-public class Usuario {
+public class Usuario implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid")
