@@ -44,12 +44,13 @@ public class ProductoServicio {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void actualizarProducto(String id, Integer stock, Float precioVenta, String tipoProducto) throws Exception {
+    public void actualizarProducto(String id,String nombre, Integer stock, Float precioVenta, String tipoProducto) throws Exception {
         Producto producto = productoRepositorio.getById(id);
         if (producto == null) {
             throw new Exception("No se encontro el producto");
         }
         try {
+            producto.setNombre(nombre);
             producto.setStock(stock);
             producto.setPrecioVenta(precioVenta);
             producto.setTipoProducto(verificarProducto(tipoProducto));
