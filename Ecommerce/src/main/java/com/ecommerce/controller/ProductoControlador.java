@@ -70,7 +70,7 @@ public class ProductoControlador {
             @RequestParam String precioVenta, @RequestParam String tipoProducto, RedirectAttributes attr) {
 
         try {
-            productoServicio.actualizarProducto(id, Integer.parseInt(stock),
+            productoServicio.actualizarProducto(id,nombre, Integer.parseInt(stock),
                     Float.parseFloat(precioVenta), tipoProducto);
             attr.addFlashAttribute("exito", "El Producto ha sido actualizado!!");
         } catch (Exception e) {
