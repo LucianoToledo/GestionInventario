@@ -56,7 +56,7 @@ public class ProductoServicio {
             productoRepositorio.save(producto);
 
         } catch (Exception e) {
-            System.out.println("Mensaje de error: "+e.getMessage());
+            System.out.println("Mensaje de error: " + e.getMessage());
         }
     }
 
@@ -116,7 +116,12 @@ public class ProductoServicio {
     }
 
     @Transactional(readOnly = true)
-    public List<Producto> buscarPorNombre(String query) {
+    public List<Producto> buscarListaPorNombre(String query) {
+        return productoRepositorio.buscarListaPorNombre(query);
+    }
+
+    @Transactional(readOnly = true)
+    public Producto buscarPorNombre(String query) {
         return productoRepositorio.buscarPorNombre(query);
     }
 
@@ -177,13 +182,13 @@ public class ProductoServicio {
     public void venderProducto(String id, int stock) throws Exception {
 
         if (stock < 1) {
-            throw new ErrorServicio("Error: El stock ingresado es menor o igual a 0");
+            throw new ErrorServicio("Error: La cantidad deseada no puede ser menor o igual a 0");
         }
 
         Producto producto = buscarPorId(id);
-        
-        if (producto.getStock() < stock){
-            throw new ErrorServicio("Error: No hay stock suficiente, cantidad de existencias - "+producto.getStock());
+
+        if (producto.getStock() < stock) {
+            throw new ErrorServicio("Error: No hay stock suficiente, cantidad de existencias - " + producto.getStock());
         }
 
         if (producto.isActivo()) {

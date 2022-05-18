@@ -1,4 +1,7 @@
-spring: 
+spring:
+#  session: 
+#    jdbc: 
+#      initialize-schema: always
   mail: 
     host: smtp.gmail.com
     port: 587

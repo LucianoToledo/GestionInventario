@@ -46,10 +46,4 @@ public class PortalControlador {
         model.put("producto", productoServicio.buscarPorId(id));
         return "detalles";
     }
-    
-    @GetMapping("carrocompras")
-    public String carroDeCompras(){
-        return "carro-compras";
-    }
-
 }
