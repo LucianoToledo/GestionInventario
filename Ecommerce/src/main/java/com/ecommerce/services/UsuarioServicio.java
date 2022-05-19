@@ -183,29 +183,31 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Usuario u = null;
         try {
-            u = buscarPorEmail(email);
+            Usuario u =  buscarPorEmail(email);
+            
+            if (u == null) {
+                return null;
+            }
+            
+            if (!u.isActivo()) {
+                throw new UsernameNotFoundException("El usuario está dado de baja");
+            }
+            
+            List<GrantedAuthority> permisos = new ArrayList<>();
+            
+            GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_" + u.getRolUsuario().toString());
+            permisos.add(p1);
+            
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            
+            HttpSession session = attr.getRequest().getSession(true);
+            session.setAttribute("usuariosession", u);
+            
+            return new User(u.getEmail(), u.getPassword(), permisos);
         } catch (Exception ex) {
             Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (!u.isActivo()) {
-            throw new UsernameNotFoundException("El usuario está dado de baja");
-        }
-        if (u == null) {
             return null;
         }
-
-        List<GrantedAuthority> permisos = new ArrayList<>();
-
-        GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_" + u.getRolUsuario().toString());
-        permisos.add(p1);
-
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-
-        HttpSession session = attr.getRequest().getSession(true);
-        session.setAttribute("usuariosession", u);
-
-        return new User(u.getEmail(), u.getPassword(), permisos);
     }
 }

@@ -80,7 +80,7 @@
             <type>jar</type>
         </dependency>
 
-<!--        Generar archivos pdf-->
+        <!--        Generar archivos pdf-->
         <dependency>
             <groupId>com.github.librepdf</groupId>
             <artifactId>openpdf</artifactId>
@@ -89,7 +89,6 @@
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-jdbc</artifactId>
-
         </dependency>
     </dependencies>
 
