@@ -204,4 +204,18 @@ public class ProductoServicio {
     public List<Producto> listar() {
         return productoRepositorio.findAll();
     }
+    
+    //codigo avel
+    @Transactional
+    public void comprar(String idProducto,int cantidad) throws Exception{
+        Producto producto = buscarPorId(idProducto);
+        
+        if (producto.getStock() < cantidad) {
+            throw new Exception("El producto no tiene stock");
+        }
+        producto.setStock(producto.getStock() - cantidad);
+        productoRepositorio.save(producto);
+        
+        
+    }
 }

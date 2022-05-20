@@ -63,12 +63,13 @@
                             <td class="tabla1">cantidad</td>
                             <td class="tabla2">
                                 <br />
-                                <form action="">
+                                <form th:action="@{/producto/comprar}" method="post">
                                     <div class="d-flex justify-content-around mb-3">
                                         <div class="btn btn-danger" data-menos="">
                                             <i class="fa-solid fa-minus"></i>
                                         </div>
-                                        <input type="hidden" th:value="${producto.nombre}" name="nombre">
+                                        <input type="text" th:value="${session.usuariosession.id}" name="idUsuario">
+                                        <input type="text" th:value="${producto.id}" name="idProducto">
                                         <div class="form-group">
                                             <input
                                                 type="text"
@@ -77,7 +78,7 @@
                                                 class="form-control text-center"
                                                 data-numero
                                                 value="0"
-                                                disabled
+                                                readonly="solo lectura"
                                                 />
                                         </div>
                                         <div class="btn btn-success" data-mas>
@@ -85,7 +86,7 @@
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-primary" data-boton>
-                                        <i class="fa-solid fa-cart-plus"></i> Agregar al carrito
+                                        <i class="fa-solid fa-basket-shopping"></i> Realizar compras
                                     </button>
                                 </form>
                             </td>
@@ -100,7 +101,7 @@
                             <td class="tabla1">Stock</td>
                             <td class="tabla2">
                                 <div class="d-flex justify-content-center">
-                                    <p data-cantidad th:text="${producto.stock}">5</p>
+                                    <p data-cantidad th:text="${producto.stock}"></p>
                                     <p>Productos</p>
                                 </div>
                             </td>
