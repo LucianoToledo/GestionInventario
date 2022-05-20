@@ -46,4 +46,28 @@ public class PortalControlador {
         model.put("producto", productoServicio.buscarPorId(id));
         return "detalles";
     }
+    
+     @GetMapping("shop")
+    public String shop(ModelMap model){
+        
+        return "shop.html";
+    }
+    
+    @GetMapping("index")
+    public String index2(ModelMap model){
+        
+        return "index.html";
+    }
+    
+    @GetMapping("about")
+    public String about(ModelMap model){
+        
+        return "about.html";
+    }
+    
+    @GetMapping("contact")
+    public String contacto(ModelMap model){
+        
+        return "contact.html";
+    }
 }
