@@ -9,6 +9,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -202,5 +207,14 @@ public class ProductoServicio {
     @Transactional(readOnly = true)
     public List<Producto> listar() {
         return productoRepositorio.findAll();
+    }
+
+    @Transactional(readOnly = true) //https://www.youtube.com/watch?v=dMT6K3sxCkg&ab_channel=JavaGuides
+    public Page<Producto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirecion) { // en español -->(int nroPagina, int, tamanioPagina, String ordenarCampo, String direccionCampo)
+
+        Sort sort = sortDirecion.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return this.productoRepositorio.findAll(pageable);
     }
 }

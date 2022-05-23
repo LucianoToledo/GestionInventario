@@ -1,15 +1,15 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
-import com.ecommerce.enums.TipoProducto;
 import com.ecommerce.services.ProductoServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -163,4 +163,23 @@ public class ProductoControlador {
         return "redirect:";
     }
 
+    @GetMapping("/page/{pageNo}")
+    public String findPaginated(@PathVariable (value = "pageNo") int pageNo, @RequestParam("sortField") String sortField, @RequestParam("sortField") String sortDir, Model model){
+        int pageSize = 5;
+        
+        Page<Producto> page = productoServicio.findPaginated(pageNo, pageSize, sortField, sortDir);
+        List<Producto> productos = page.getContent();
+        
+        model.addAttribute("currentPage",pageNo);
+        model.addAttribute("totalPages",page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        
+        model.addAttribute("sortField",sortField);
+        model.addAttribute("sortDir",sortDir);
+        model.addAttribute("reverseSortDir",sortDir.equals("asc") ? "desc" : "asc");
+                
+        model.addAttribute("productos",productos);
+
+        return "index";
+    }
 }
