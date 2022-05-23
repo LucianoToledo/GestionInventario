@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,12 +48,13 @@ public class ProductoServicio {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void actualizarProducto(String id, Integer stock, Float precioVenta, String tipoProducto) throws Exception {
+    public void actualizarProducto(String id, String nombre, Integer stock, Float precioVenta, String tipoProducto) throws Exception {
         Producto producto = productoRepositorio.getById(id);
         if (producto == null) {
             throw new Exception("No se encontro el producto");
         }
         try {
+            producto.setNombre(nombre);
             producto.setStock(stock);
             producto.setPrecioVenta(precioVenta);
             producto.setTipoProducto(verificarProducto(tipoProducto));
@@ -216,5 +216,18 @@ public class ProductoServicio {
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return this.productoRepositorio.findAll(pageable);
+    }
+
+    //codigo avel
+    @Transactional
+    public void comprar(String idProducto, int cantidad) throws Exception {
+        Producto producto = buscarPorId(idProducto);
+
+        if (producto.getStock() < cantidad) {
+            throw new Exception("El producto no tiene stock");
+        }
+        producto.setStock(producto.getStock() - cantidad);
+        productoRepositorio.save(producto);
+
     }
 }

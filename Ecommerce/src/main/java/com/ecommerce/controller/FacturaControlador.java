@@ -34,17 +34,6 @@ public class FacturaControlador {
         return "factura.html";
     }
 
-    @PostMapping("/crear")
-    public String crear(ModelMap modelo, @RequestParam String idUsuario, @RequestParam List<Producto> productos, @RequestParam EstadoFactura estadoFactura) {
-
-        try {
-            facturaServicio.crear(idUsuario, productos, estadoFactura);
-            modelo.put("alta", "La factura ha sido cargada con éxito");
-        } catch (Exception e) {
-            modelo.put("error", e.getMessage());
-        }
-        return "factura-crear.html";
-    }
 
     @GetMapping("/alta/{idFactura}")
     public String alta(RedirectAttributes attr, @PathVariable String idFactura) throws ErrorServicio {
