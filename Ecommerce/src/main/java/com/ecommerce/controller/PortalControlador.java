@@ -17,13 +17,6 @@ public class PortalControlador {
     @Autowired
     private ProductoServicio productoServicio;
 
-    /**
-     * @return 
-    @GetMapping("/")
-    public String pruebaLogin() {
-        return "prueba-login.html";
-    }
-    */
     
     @GetMapping()
     public String index(ModelMap model){

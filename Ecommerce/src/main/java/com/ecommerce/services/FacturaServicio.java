@@ -41,14 +41,14 @@ public class FacturaServicio {
                 throw new Exception("No existe el usuario");
             }
 
-            List<Producto> productos = new ArrayList<>();
-            productos.add(producto);
+//            List<Producto> productos = new ArrayList<>();
+//            productos.add(producto);
 
             factura.setFechaFactura(new Date());
             factura.setCantidadItem(cantidad);
             factura.setTotal(producto.getPrecioVenta() * cantidad);
             factura.setEstadoFactura(EstadoFactura.APROBADA);
-            factura.setProducto(productos);
+            factura.setProducto(producto);
             factura.setUsuario(usuario);
             factura.setActivo(true);
 
@@ -104,7 +104,6 @@ public class FacturaServicio {
     @Transactional(readOnly = true)
     public List<Factura> listar() {
         return facturaRepositorio.findAll();
-
     }
 
     private double sumarTotal(List<Producto> productos) {
@@ -119,7 +118,6 @@ public class FacturaServicio {
         if (idUsuario == null || idUsuario.isEmpty()) {
             throw new ErrorServicio("Debe indicar el ID de el usuario");
         }
-
         if (productos == null || productos.isEmpty()) {
             throw new ErrorServicio("Debe ingrear al menos un prodcuto");
         }
