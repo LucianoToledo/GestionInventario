@@ -205,17 +205,13 @@ public class ProductoServicio {
     }
 
     @Transactional(readOnly = true)
+    public List<Producto> listar(PageRequest pageRequest) {
+        return (List<Producto>) productoRepositorio.findAll(pageRequest);
+    }
+    
+    @Transactional(readOnly = true)
     public List<Producto> listar() {
         return productoRepositorio.findAll();
-    }
-
-    @Transactional(readOnly = true) //https://www.youtube.com/watch?v=dMT6K3sxCkg&ab_channel=JavaGuides
-    public Page<Producto> findPaginated(int pageNo, int pageSize, String sortField, String sortDirecion) { // en español -->(int nroPagina, int, tamanioPagina, String ordenarCampo, String direccionCampo)
-
-        Sort sort = sortDirecion.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.productoRepositorio.findAll(pageable);
     }
 
     //codigo avel
@@ -229,5 +225,9 @@ public class ProductoServicio {
         producto.setStock(producto.getStock() - cantidad);
         productoRepositorio.save(producto);
 
+    }
+    
+    public Page<Producto> getAll(Pageable pageable){
+        return productoRepositorio.findAll(pageable);
     }
 }

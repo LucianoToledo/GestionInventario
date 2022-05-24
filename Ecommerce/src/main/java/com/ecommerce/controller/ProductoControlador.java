@@ -1,7 +1,7 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
-import com.ecommerce.enums.TipoProducto;
+import com.ecommerce.repositories.ProductoRepositorio;
 import com.ecommerce.services.FacturaServicio;
 import com.ecommerce.services.ProductoServicio;
 import java.util.List;
@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +31,9 @@ public class ProductoControlador {
     private ProductoServicio productoServicio;
     @Autowired
     private FacturaServicio facturaServicio;
-    
+    @Autowired
+    private ProductoRepositorio productoRepositorio;
+
     @GetMapping("/lista")
     public String lista(ModelMap modelo) {
         List<Producto> productos = productoServicio.listar();
@@ -94,9 +98,9 @@ public class ProductoControlador {
 
     //codigo de avel
     @PostMapping("/comprar")
-    public String comprarProucto(@RequestParam String idUsuario,@RequestParam String idProducto,@RequestParam String cantidad) {
+    public String comprarProucto(@RequestParam String idUsuario, @RequestParam String idProducto, @RequestParam String cantidad) {
         try {
-            productoServicio.comprar(idProducto,Integer.parseInt(cantidad));
+            productoServicio.comprar(idProducto, Integer.parseInt(cantidad));
             facturaServicio.crear(idUsuario, idProducto, Integer.parseInt(cantidad));
         } catch (Exception ex) {
             Logger.getLogger(ProductoControlador.class.getName()).log(Level.SEVERE, null, ex);
@@ -182,23 +186,42 @@ public class ProductoControlador {
         return "redirect:";
     }
 
-    @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable (value = "pageNo") int pageNo, @RequestParam("sortField") String sortField, @RequestParam("sortField") String sortDir, Model model){
-        int pageSize = 5;
-        
-        Page<Producto> page = productoServicio.findPaginated(pageNo, pageSize, sortField, sortDir);
-        List<Producto> productos = page.getContent();
-        
-        model.addAttribute("currentPage",pageNo);
-        model.addAttribute("totalPages",page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        
-        model.addAttribute("sortField",sortField);
-        model.addAttribute("sortDir",sortDir);
-        model.addAttribute("reverseSortDir",sortDir.equals("asc") ? "desc" : "asc");
-                
-        model.addAttribute("productos",productos);
+    @GetMapping("/shop_1")
+    public String findAll(ModelMap model, @PageableDefault(size = 2) Pageable pageable) {
 
-        return "index";
+        Page<Producto> productos = productoServicio.getAll(pageable);
+
+        System.out.println(productos.getNumberOfElements());
+        System.out.println(productos.getContent());
+        
+        model.put("page", productos);
+
+        return "shop_1.html";
     }
+
+//    @GetMapping("/page/{pageNo}")
+//    public String findPaginated(@PathVariable int pageNo, @RequestParam("sortField") String sortField, @RequestParam("sortField") String sortDir, Model model){
+//        int pageSize = 5;
+//        
+//        Page<Producto> page = productoServicio.findPaginated(pageNo, pageSize, sortField, sortDir);
+//        List<Producto> productos = page.getContent();
+//        
+//        model.addAttribute("currentPage",pageNo);
+//        model.addAttribute("totalPages",page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//        
+//        model.addAttribute("sortField",sortField);
+//        model.addAttribute("sortDir",sortDir);
+//        model.addAttribute("reverseSortDir",sortDir.equals("asc") ? "desc" : "asc");
+//                
+//        model.addAttribute("productos",productos);
+//
+//        return "index";
+//    }
+//    @GetMapping("/shop/")
+//    public String showPage(Model model,@RequestParam(defaultValue = "0") int page){
+//        model.addAttribute("productos",
+//              productoRepositorio.findAll(new PageRequest(page, 6)));
+//        return "shop.html";
+//    }
 }
