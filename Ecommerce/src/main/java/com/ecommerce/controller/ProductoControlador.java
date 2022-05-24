@@ -2,8 +2,11 @@ package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
 import com.ecommerce.enums.TipoProducto;
+import com.ecommerce.services.FacturaServicio;
 import com.ecommerce.services.ProductoServicio;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +26,9 @@ public class ProductoControlador {
 
     @Autowired
     private ProductoServicio productoServicio;
-
+    @Autowired
+    private FacturaServicio facturaServicio;
+    
     @GetMapping("/lista")
     public String lista(ModelMap modelo) {
         List<Producto> productos = productoServicio.listar();
@@ -70,7 +75,7 @@ public class ProductoControlador {
             @RequestParam String precioVenta, @RequestParam String tipoProducto, RedirectAttributes attr) {
 
         try {
-            productoServicio.actualizarProducto(id,nombre, Integer.parseInt(stock),
+            productoServicio.actualizarProducto(id, nombre, Integer.parseInt(stock),
                     Float.parseFloat(precioVenta), tipoProducto);
             attr.addFlashAttribute("exito", "El Producto ha sido actualizado!!");
         } catch (Exception e) {
@@ -84,6 +89,19 @@ public class ProductoControlador {
     public String checkEstado(@PathVariable String id) throws Exception {
         productoServicio.checkEstado(id);
         return "redirect:/producto/lista";
+    }
+
+    //codigo de avel
+    @PostMapping("/comprar")
+    public String comprarProucto(@RequestParam String idUsuario,@RequestParam String idProducto,@RequestParam String cantidad) {
+        try {
+            productoServicio.comprar(idProducto,Integer.parseInt(cantidad));
+            facturaServicio.crear(idUsuario, idProducto, Integer.parseInt(cantidad));
+        } catch (Exception ex) {
+            Logger.getLogger(ProductoControlador.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/buscarPorNombre")
