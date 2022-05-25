@@ -1,15 +1,21 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
-import com.ecommerce.enums.TipoProducto;
+import com.ecommerce.repositories.ProductoRepositorio;
+import com.ecommerce.services.FacturaServicio;
 import com.ecommerce.services.ProductoServicio;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +29,10 @@ public class ProductoControlador {
 
     @Autowired
     private ProductoServicio productoServicio;
+    @Autowired
+    private FacturaServicio facturaServicio;
+    @Autowired
+    private ProductoRepositorio productoRepositorio;
 
     @GetMapping("/lista")
     public String lista(ModelMap modelo) {
@@ -70,7 +80,7 @@ public class ProductoControlador {
             @RequestParam String precioVenta, @RequestParam String tipoProducto, RedirectAttributes attr) {
 
         try {
-            productoServicio.actualizarProducto(id,nombre, Integer.parseInt(stock),
+            productoServicio.actualizarProducto(id, nombre, Integer.parseInt(stock),
                     Float.parseFloat(precioVenta), tipoProducto);
             attr.addFlashAttribute("exito", "El Producto ha sido actualizado!!");
         } catch (Exception e) {
@@ -84,6 +94,19 @@ public class ProductoControlador {
     public String checkEstado(@PathVariable String id) throws Exception {
         productoServicio.checkEstado(id);
         return "redirect:/producto/lista";
+    }
+
+    //codigo de avel
+    @PostMapping("/comprar")
+    public String comprarProucto(@RequestParam String idUsuario, @RequestParam String idProducto, @RequestParam String cantidad) {
+        try {
+            productoServicio.comprar(idProducto, Integer.parseInt(cantidad));
+            facturaServicio.crear(idUsuario, idProducto, Integer.parseInt(cantidad));
+        } catch (Exception ex) {
+            Logger.getLogger(ProductoControlador.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
+        return "redirect:/";
     }
 
     @GetMapping("/buscarPorNombre")
@@ -163,4 +186,42 @@ public class ProductoControlador {
         return "redirect:";
     }
 
+    @GetMapping("/shop_1")
+    public String findAll(ModelMap model, @PageableDefault(size = 2) Pageable pageable) {
+
+        Page<Producto> productos = productoServicio.getAll(pageable);
+
+        System.out.println(productos.getNumberOfElements());
+        System.out.println(productos.getContent());
+        
+        model.put("page", productos);
+
+        return "shop_1.html";
+    }
+
+//    @GetMapping("/page/{pageNo}")
+//    public String findPaginated(@PathVariable int pageNo, @RequestParam("sortField") String sortField, @RequestParam("sortField") String sortDir, Model model){
+//        int pageSize = 5;
+//        
+//        Page<Producto> page = productoServicio.findPaginated(pageNo, pageSize, sortField, sortDir);
+//        List<Producto> productos = page.getContent();
+//        
+//        model.addAttribute("currentPage",pageNo);
+//        model.addAttribute("totalPages",page.getTotalPages());
+//        model.addAttribute("totalItems", page.getTotalElements());
+//        
+//        model.addAttribute("sortField",sortField);
+//        model.addAttribute("sortDir",sortDir);
+//        model.addAttribute("reverseSortDir",sortDir.equals("asc") ? "desc" : "asc");
+//                
+//        model.addAttribute("productos",productos);
+//
+//        return "index";
+//    }
+//    @GetMapping("/shop/")
+//    public String showPage(Model model,@RequestParam(defaultValue = "0") int page){
+//        model.addAttribute("productos",
+//              productoRepositorio.findAll(new PageRequest(page, 6)));
+//        return "shop.html";
+//    }
 }

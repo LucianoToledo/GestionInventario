@@ -6,6 +6,7 @@ import com.ecommerce.entities.Producto;
 import com.ecommerce.entities.Usuario;
 import com.ecommerce.enums.EstadoFactura;
 import com.ecommerce.repositories.FacturaRepositorio;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -21,21 +22,41 @@ public class FacturaServicio {
     private FacturaRepositorio facturaRepositorio;
     @Autowired
     private UsuarioServicio usuarioServicio;
+    @Autowired
+    private ProductoServicio productoServicio;
 
-    @Transactional(rollbackFor = {Exception.class})
-    public Factura crear(String idUsuario, List<Producto> productos, EstadoFactura estadoFactura) throws ErrorServicio, Exception {
-        
-        validar(idUsuario, productos, estadoFactura);
-        Factura factura = new Factura();
-        factura.setUsuario(usuarioServicio.buscarPorId(idUsuario));
-        factura.setCantidadItem(productos.size());
-        factura.setProducto(productos);
-        factura.setTotal(sumarTotal(productos));      
-        factura.setEstadoFactura(estadoFactura);
-        factura.setFechaFactura(new Date());
-        factura.setActivo(true);
-        factura.setBajaFactura(null);
-        return facturaRepositorio.save(factura);
+    @Transactional
+    public void crear(String idUsuario, String idProducto, int cantidad) throws Exception {
+        try {
+            Factura factura = new Factura();
+
+            Producto producto = productoServicio.buscarPorId(idProducto);
+            Usuario usuario = usuarioServicio.buscarPorId(idUsuario);
+
+            if (producto == null) {
+                throw new Exception("No existe el producto");
+            }
+
+            if (usuario == null) {
+                throw new Exception("No existe el usuario");
+            }
+
+//            List<Producto> productos = new ArrayList<>();
+//            productos.add(producto);
+
+            factura.setFechaFactura(new Date());
+            factura.setCantidadItem(cantidad);
+            factura.setTotal(producto.getPrecioVenta() * cantidad);
+            factura.setEstadoFactura(EstadoFactura.APROBADA);
+            factura.setProducto(producto);
+            factura.setUsuario(usuario);
+            factura.setActivo(true);
+
+            facturaRepositorio.save(factura);
+        }catch(Exception ex){
+            System.out.println(ex.getMessage());
+        }
+      
     }
        
 //    @Transactional(rollbackFor = {Exception.class})
@@ -61,57 +82,51 @@ public class FacturaServicio {
     
     @Transactional(rollbackFor = {Exception.class})
     public void alta(String idFactura) throws ErrorServicio {
-       Factura factura = buscarPorId(idFactura);
-             if (!factura.isActivo()) {
-                factura.setActivo(true);
-                factura.setFechaFactura(new Date());
-                factura.setBajaFactura(new Date());
-                facturaRepositorio.save(factura);
+        Factura factura = buscarPorId(idFactura);
+        if (!factura.isActivo()) {
+            factura.setActivo(true);
+            factura.setFechaFactura(new Date());
+            factura.setBajaFactura(new Date());
+            facturaRepositorio.save(factura);
         }
-        } 
-          
-            
-        
+    }
+
     @Transactional(rollbackFor = {Exception.class})
     public void baja(String idFactura) throws ErrorServicio {
-       Factura factura = buscarPorId(idFactura);
-           if (factura.isActivo()){
-                factura.setActivo(false);
-                factura.setBajaFactura(new Date());
-                facturaRepositorio.save(factura);
-           }
-        } 
-               
-          
-   
+        Factura factura = buscarPorId(idFactura);
+        if (factura.isActivo()) {
+            factura.setActivo(false);
+            factura.setBajaFactura(new Date());
+            facturaRepositorio.save(factura);
+        }
+    }
+
     @Transactional(readOnly = true)
-   public List<Factura> listar(){
-      return facturaRepositorio.findAll();
-        
-   }
-   
-   private double sumarTotal(List<Producto> productos){
-       double total = 0;
-       for (Producto producto : productos) {
-           total += producto.getPrecioVenta();
-       }
+    public List<Factura> listar() {
+        return facturaRepositorio.findAll();
+    }
+
+    private double sumarTotal(List<Producto> productos) {
+        double total = 0;
+        for (Producto producto : productos) {
+            total += producto.getPrecioVenta();
+        }
         return total;
-   }
-    
-    private void validar(String idUsuario, List<Producto> productos, EstadoFactura estadoFactura)throws ErrorServicio{
-        if (idUsuario == null || idUsuario.isEmpty()){
+    }
+
+    private void validar(String idUsuario, List<Producto> productos, EstadoFactura estadoFactura) throws ErrorServicio {
+        if (idUsuario == null || idUsuario.isEmpty()) {
             throw new ErrorServicio("Debe indicar el ID de el usuario");
         }
-        
-        if (productos == null || productos.isEmpty()){
+        if (productos == null || productos.isEmpty()) {
             throw new ErrorServicio("Debe ingrear al menos un prodcuto");
         }
-        if (estadoFactura == null){
+        if (estadoFactura == null) {
             throw new ErrorServicio("Debe indicar el estado de la factura");
         }
     }
-    
-     @Transactional(readOnly = true)
+
+    @Transactional(readOnly = true)
     public Factura buscarPorId(String id) throws ErrorServicio {
         Optional<Factura> resupuesta = facturaRepositorio.findById(id);
         if (resupuesta.isPresent()) {
@@ -121,8 +136,6 @@ public class FacturaServicio {
         }
     }
 
-
-    
 //    private List<Producto> elimiProducto(List<Producto> productos, Producto producto) throws ErrorServicio{
 //        Iterator<Producto> iterador = productos.iterator();
 //        while (iterador.hasNext())
@@ -140,14 +153,4 @@ public class FacturaServicio {
 //        return productos;
 //        
 //    }
-    
-    
-   
-   }     
-
-
-
-    
-    
-
-
+}
