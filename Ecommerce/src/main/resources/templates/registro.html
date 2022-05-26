@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+            crossorigin="anonymous"
+            />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <title>Registrar usuario</title>
+        <style>
+            .bg{
+                background-image: url(https://cdn.pixabay.com/photo/2017/03/20/10/24/supermarket-2158692_960_720.jpg);
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                background-size: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <!--NAVBAR-->
+        <header th:insert="/navbar :: menu-navegacion"></header>
+        <!--NAVBAR-->
+        <!--FORMULARIO INGRESO-->
+        <div class="container w-75 bg-primary mt-5 rounded shadow">
+            <div class="row align-items-stretch">
+                <div class="col bg d-none d-lg-block col-md-5 col-lg-5 col-xl-5 rounded">
+
+                </div>
+                <div class="col bg-white p-5 rounded-end">
+                    <div class="text-end">
+                        <img src="https://www.kindpng.com/picc/m/193-1936884_ecommerce-websites-ecommerce-icon-hd-png-download.png" width="48" alt="">
+                    </div>
+                    <h2 class="fw-bold text-center py-3">Registrarme</h2>
+                    <form th:action="@{/usuario/registro}"   method="POST" class="row g-3 needs-validation" novalidate>
+                        <p th:text="${error}" style="color: red" ></p>
+                        <p th:text="${logout}" style="color: green" ></p>
+                        <div class="mb-2">
+                            <label for="nombre" class="form-label">Ingresar nombre</label>
+                            <input type="text" class="form-control" name="nombre" required th:value="${nombre}">
+                            <div class="valid-feedback">Campo correcto</div>
+                            <div class="invalid-feedback">Campo incorrecto</div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="apellido" class="form-label">Ingresar Apellido</label>
+                            <input type="text" class="form-control" name="apellido" required th:value="${apellido}">
+                            <div class="valid-feedback">Campo correcto</div>
+                            <div class="invalid-feedback">Campo incorrecto</div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="direccion" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" name="direccion" required th:value="${direccion}">
+                            <div class="valid-feedback">Campo correcto</div>
+                            <div class="invalid-feedback">Campo incorrecto</div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="text" class="form-control" name="email" required th:value="${email}">
+                            <div class="valid-feedback">Campo correcto</div>
+                            <div class="invalid-feedback">Campo incorrecto</div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="password" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" name="password" required th:value="${password}">
+                            <div class="valid-feedback">Campo correcto</div>
+                            <div class="invalid-feedback">Campo incorrecto</div>
+                        </div>
+                        <div class="mb-2">
+                            <label for="confirmarPassword" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" name="confirmarPassword" required th:value="${confirmarPassword}">
+                            <div class="valid-feedback">Campo correcto</div>
+                            <div class="invalid-feedback">Campo incorrecto</div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Registrarme</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--FORMULARIO INGRESO-->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"
+        ></script>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+            (function () {
+                'use strict'
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                Array.prototype.slice.call(forms)
+                        .forEach(function (form) {
+                            form.addEventListener('submit', function (event) {
+                                if (!form.checkValidity()) {
+                                    event.preventDefault()
+                                    event.stopPropagation()
+                                }
+
+                                form.classList.add('was-validated')
+                            }, false)
+                        })
+            })()
+        </script>
+        <!-- Option 2: Separate Popper and Bootstrap JS -->
+        <!--
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+        -->
+    </body>
+</html>

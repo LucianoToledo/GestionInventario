@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <title>E-Commerce</title>
+    </head>
+
+    <body>
+        <!--NAVBAR-->
+       <header th:insert="/navbar :: menu-navegacion"></header>
+        <!--NAVBAR-->
+
+        <!--AGREGAR PRODUCTO-->
+        <div class="container mt-5">
+            <h1>Agregar producto</h1>
+            <h3 th:if="${exito !=null}" th:text="${exito}" class="text-success"></h3>
+            <h3 th:if="${error !=null}" th:text="${error}" class="text-danger"></h3>
+            <form class="row g-3 needs-validation" novalidate  th:action= "@{/producto/crear}" method="Post">
+                <div class="col-md-6">
+                    <label for="nombre" class="form-label">Nombre producto</label>
+                    <input type="text" class="form-control" id="nombre" name="descripcion" required>
+                    <div class="valid-feedback">Campo validado</div>
+                    <div class="invalid-feedback">Complete los datos</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="stock" class="form-label">Stock del producto</label>
+                    <input type="text" class="form-control" id="stock" name="stock" required>
+                    <div class="valid-feedback">Campo validado</div>
+                    <div class="invalid-feedback">Complete los datos</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="precio" class="form-label">Ingresar precio del producto</label>
+                    <input type="text" class="form-control" id="nombre" name="precio" required>
+                    <div class="valid-feedback">Campo validado</div>
+                    <div class="invalid-feedback">Complete los datos</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="tipo">Tipo de producto</label>
+                    <select name="tipoProducto" id="tipo" class="form-select" required>
+                        <option selected disabled value="">Seleccionar el tipo de producto</option>
+                        <option value="Lacteo">Lacteo</option>
+                        <option value="Fiambre">Fiambre</option>
+                        <option value="Bebida">Bebida</option>
+                    </select>
+                    <div class="valid-feedback">Campo validado</div>
+                    <div class="invalid-feedback">Complete los datos</div>
+                </div>
+                <div class="col-md-6">
+                    <label for="archivo" class="form-label">Seleccionar archivo</label>
+                    <input type="file" id="archivo" name="imagen" class="form-control" required>
+                    <div class="valid-feedback">Campo validado</div>
+                    <div class="invalid-feedback">Complete los datos</div>
+                </div>
+                <div class="col-md-6">
+                    <input type="submit" class="btn btn-warning fw-bold mt-4" value="Ingresar producto">
+                </div>
+            </form>
+        </div>
+        <!--AGREGAR PRODUCTO-->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script>
+            // Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+        </script>
+        <!--
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+        -->
+    </body>
+</html>
