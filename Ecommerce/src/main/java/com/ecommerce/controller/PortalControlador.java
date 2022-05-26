@@ -1,6 +1,8 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.services.ProductoServicio;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,14 +18,6 @@ public class PortalControlador {
     
     @Autowired
     private ProductoServicio productoServicio;
-
-    /**
-     * @return 
-    @GetMapping("/")
-    public String pruebaLogin() {
-        return "prueba-login.html";
-    }
-    */
     
     @GetMapping()
     public String index(ModelMap model){
@@ -48,9 +42,9 @@ public class PortalControlador {
         return "detalles";
     }
     
-     @GetMapping("shop")
+    @GetMapping("shop")
     public String shop(ModelMap model){
-        
+        model.put("ListadosProductos", productoServicio.listar());
         return "shop.html";
     }
     
@@ -71,5 +65,15 @@ public class PortalControlador {
     public String contacto(ModelMap model){
         
         return "contact.html";
+    }
+    
+    @GetMapping("shop-single/{id}")
+    public String shopSingle(@PathVariable String id,ModelMap model){
+        try {
+            model.put("Producto", productoServicio.buscarPorId(id));
+        } catch (Exception ex) {
+            Logger.getLogger(PortalControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "shop-single.html";
     }
 }

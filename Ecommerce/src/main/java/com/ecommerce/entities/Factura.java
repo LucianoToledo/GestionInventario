@@ -27,8 +27,8 @@ public class Factura {
     private int cantidadItem;
     @Enumerated(EnumType.STRING)
     private EstadoFactura estadoFactura;
-    @OneToMany
-    private List<Producto> producto;
+    @OneToOne
+    private Producto producto;
     @OneToOne
     private Usuario usuario;
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,7 +38,7 @@ public class Factura {
     public Factura() {
     }
 
-    public Factura(String id, Date fechaFactura, double total, int cantidadItem, EstadoFactura estadoFactura, List<Producto> producto, Usuario usuario, Date bajaFactura, boolean activo) {
+    public Factura(String id, Date fechaFactura, double total, int cantidadItem, EstadoFactura estadoFactura, Producto producto, Usuario usuario, Date bajaFactura, boolean activo) {
         this.id = id;
         this.fechaFactura = fechaFactura;
         this.total = total;
@@ -119,11 +119,11 @@ public class Factura {
         this.estadoFactura = estadoFactura;
     }
 
-    public List<Producto> getProducto() {
+    public Producto getProducto() {
         return producto;
     }
 
-    public void setProducto(List<Producto> producto) {
+    public void setProducto(Producto producto) {
         this.producto = producto;
     }
 

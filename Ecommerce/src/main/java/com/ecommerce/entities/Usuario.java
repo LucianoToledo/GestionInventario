@@ -3,6 +3,8 @@ package com.ecommerce.entities;
 import com.ecommerce.enums.RolUsuario;
 import java.io.Serializable;
 import java.util.Date;
+import javax.annotation.Nullable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -34,6 +36,7 @@ public class Usuario implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private RolUsuario rolUsuario;
+    
     @OneToOne
     private Imagen imagen;
 

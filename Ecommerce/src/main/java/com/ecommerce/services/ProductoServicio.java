@@ -9,6 +9,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,7 +48,7 @@ public class ProductoServicio {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void actualizarProducto(String id,String nombre, Integer stock, Float precioVenta, String tipoProducto) throws Exception {
+    public void actualizarProducto(String id, String nombre, Integer stock, Float precioVenta, String tipoProducto) throws Exception {
         Producto producto = productoRepositorio.getById(id);
         if (producto == null) {
             throw new Exception("No se encontro el producto");
@@ -201,21 +205,29 @@ public class ProductoServicio {
     }
 
     @Transactional(readOnly = true)
+    public List<Producto> listar(PageRequest pageRequest) {
+        return (List<Producto>) productoRepositorio.findAll(pageRequest);
+    }
+    
+    @Transactional(readOnly = true)
     public List<Producto> listar() {
         return productoRepositorio.findAll();
     }
-    
+
     //codigo avel
     @Transactional
-    public void comprar(String idProducto,int cantidad) throws Exception{
+    public void comprar(String idProducto, int cantidad) throws Exception {
         Producto producto = buscarPorId(idProducto);
-        
+
         if (producto.getStock() < cantidad) {
             throw new Exception("El producto no tiene stock");
         }
         producto.setStock(producto.getStock() - cantidad);
         productoRepositorio.save(producto);
-        
-        
+
+    }
+    
+    public Page<Producto> getAll(Pageable pageable){
+        return productoRepositorio.findAll(pageable);
     }
 }
