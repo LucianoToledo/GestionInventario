@@ -54,10 +54,11 @@ public class PortalControlador {
         return "shop.html";
     }
     
-    @GetMapping("index")
+    @GetMapping("index2")
     public String index2(ModelMap model){
+        model.put("ListadosProductos", productoServicio.listar());
         
-        return "index.html";
+        return "index2.html";
     }
     
     @GetMapping("about")
