@@ -20,7 +20,7 @@ public class PortalControlador {
     private ProductoServicio productoServicio;
 
     
-    @GetMapping()
+    @GetMapping("/index")
     public String index(ModelMap model){
         model.put("ListadosProductos", productoServicio.listar());
         return "index";
@@ -49,11 +49,7 @@ public class PortalControlador {
         return "shop.html";
     }
     
-    @GetMapping("index")
-    public String index2(ModelMap model){
-        
-        return "index.html";
-    }
+    
     
     @GetMapping("about")
     public String about(ModelMap model){

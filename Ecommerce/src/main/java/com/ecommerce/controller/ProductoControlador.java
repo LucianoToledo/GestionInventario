@@ -98,11 +98,12 @@ public class ProductoControlador {
 
     //codigo de avel
     @PostMapping("/comprar")
-    public String comprarProucto(@RequestParam String idUsuario, @RequestParam String idProducto, @RequestParam String cantidad) {
+    public String comprarProucto(ModelMap modelo,@RequestParam String idUsuario, @RequestParam String idProducto, @RequestParam String cantidad) {
         try {
             productoServicio.comprar(idProducto, Integer.parseInt(cantidad));
             facturaServicio.crear(idUsuario, idProducto, Integer.parseInt(cantidad));
-        } catch (Exception ex) {
+        } catch (Exception ex) { 
+            modelo.put("error", "debe loguearse primero");
             Logger.getLogger(ProductoControlador.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
