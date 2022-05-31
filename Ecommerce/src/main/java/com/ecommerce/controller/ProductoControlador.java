@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -102,27 +101,31 @@ public class ProductoControlador {
 
     //codigo de avelHttpSession session
     @PostMapping("/comprar")
-    public String comprarProucto(@RequestParam String idProducto, @RequestParam String cantidad,HttpSession session) throws Exception {
+    public String comprarProucto(ModelMap modelo, @RequestParam String idUsuario, @RequestParam String idProducto, @RequestParam String cantidad) {
         try {
             productoServicio.comprar(idProducto, Integer.parseInt(cantidad));
-            facturaServicio.crear(session.getId(), idProducto, Integer.parseInt(cantidad));
+            facturaServicio.crear(idUsuario, idProducto, Integer.parseInt(cantidad));
         } catch (Exception ex) {
+            modelo.put("error", "debe loguearse primero");
             Logger.getLogger(ProductoControlador.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
         }
         return "redirect:/";
     }
 
-    @GetMapping("/buscarPorNombre")
+    @PostMapping("/buscarPorNombre")
     public String buscarPorNombre(ModelMap modelo, @RequestParam String query) {
-
         try {
-            productoServicio.buscarPorNombre(query);
-            modelo.put("exito", "El Producto se ha encontrado");
+            if (query == null) {
+                modelo.put("error", "No se encontró Producto con ese nombre");
+            }
+            modelo.put("p", productoServicio.buscarPorQuery(query));
+           
         } catch (Exception e) {
             modelo.put("error", "No se encontró Producto con ese nombre");
+             System.out.println("----> "+productoServicio.buscarPorQuery(query));
         }
-        return "";
+        return "shop.html";
     }
 
     @GetMapping("/fechaAlta/{id}")
@@ -197,7 +200,7 @@ public class ProductoControlador {
 
         System.out.println(productos.getNumberOfElements());
         System.out.println(productos.getContent());
-        
+
         model.put("page", productos);
 
         return "shop_1.html";
