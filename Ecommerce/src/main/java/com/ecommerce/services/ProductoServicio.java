@@ -1,18 +1,18 @@
 package com.ecommerce.services;
 
 import com.ecommerce.Errores.ErrorServicio;
-import com.ecommerce.entities.Imagen;
 import com.ecommerce.entities.Producto;
 import com.ecommerce.enums.TipoProducto;
 import com.ecommerce.repositories.ProductoRepositorio;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,7 +32,6 @@ public class ProductoServicio {
         validarProducto(nombre, stock, precioVenta, tipoProducto);
 
         Producto producto = new Producto();
-        //producto.setDescripcion(descripcion);
         producto.setNombre(nombre);
         producto.setStock(Integer.parseInt(stock));
         producto.setPrecioVenta(Float.parseFloat(precioVenta));
@@ -40,9 +39,7 @@ public class ProductoServicio {
         producto.setDescripcion(descripcion);
         producto.setActivo(true);
         producto.setFechaAlta(new Date());
-
-        Imagen imagen = imagenServicio.crearImagen(archivo);
-        producto.setImagen(imagen);
+        producto.setImagen(imagenServicio.crearImagen(archivo));
 
         productoRepositorio.save(producto);
     }
@@ -208,7 +205,7 @@ public class ProductoServicio {
     public List<Producto> listar(PageRequest pageRequest) {
         return (List<Producto>) productoRepositorio.findAll(pageRequest);
     }
-    
+
     @Transactional(readOnly = true)
     public List<Producto> listar() {
         return productoRepositorio.findAll();
@@ -226,8 +223,20 @@ public class ProductoServicio {
         productoRepositorio.save(producto);
 
     }
-    
-    public Page<Producto> getAll(Pageable pageable){
+
+    public Page<Producto> getAll(Pageable pageable) {
         return productoRepositorio.findAll(pageable);
+    }
+
+    public List<Producto> buscarPorQuery(String query) {
+//        ArrayList<Producto> productos= (ArrayList<Producto>) productoRepositorio.buscarPor(query);
+//        Iterator<Producto> it = productos.iterator();
+//        while(it.hasNext()){
+//            Producto next = it.next();
+//            if (next.getFechaBaja() != null) {
+//                it.remove();
+//            }
+//        }
+        return productoRepositorio.buscarPor(query);
     }
 }
