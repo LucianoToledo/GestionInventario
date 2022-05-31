@@ -33,7 +33,7 @@ public class UsuarioServicio implements UserDetailsService {
 
     @Autowired
     private SendMailService sendMailService;
-    
+
     @Autowired
     private ImagenServicio imagenServicio;
 
@@ -57,7 +57,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
         sendMailService.mensajeBienvenida(email, nombre);
     }
-    
+
     @Transactional(rollbackFor = {Exception.class})
     public void eliminarUsuario(String id) throws Exception {
         usuarioRepositorio.deleteById(buscarPorId(id).getId());
@@ -82,18 +82,19 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
 
-//otra posibilidad es hacer un cambio de rol directamente
-//    @Transactional(rollbackFor = {Exception.class})
-//    public void swicthRolUsuario(String id) throws Exception {
-//        Usuario usuario = buscarPorId(id);
-//                if (usuario.getRolUsuario().equals(RolUsuario.ADMIN)) {
-//            usuario.setRolUsuario(RolUsuario.CLIENTE);
-//        }
-//        if (usuario.getRolUsuario().equals(RolUsuario.CLIENTE)) {
-//            usuario.setRolUsuario(RolUsuario.ADMIN);
-//        }
-    // usuarioRepositorio.save(usuario);
-//    }
+    @Transactional(rollbackFor = {Exception.class})
+    public void swicthRolUsuario(String id) throws Exception {
+        Usuario usuario = buscarPorId(id);
+        if (usuario.getRolUsuario().equals(RolUsuario.ADMIN)) {
+            usuario.setRolUsuario(RolUsuario.CLIENTE);
+        }
+        else{
+            
+            usuario.setRolUsuario(RolUsuario.ADMIN);
+        }
+        usuarioRepositorio.save(usuario);
+    }
+
     @Transactional(rollbackFor = {Exception.class})
     public void bajaUsuario(String id) throws Exception {
         Usuario usuario = buscarPorId(id);
@@ -120,7 +121,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional(readOnly = true)
-    public List<Usuario> buscarPorRol(RolUsuario rol){ //se debe recibir un string del enum de rol    
+    public List<Usuario> buscarPorRol(RolUsuario rol) { //se debe recibir un string del enum de rol    
         return usuarioRepositorio.buscarPorRol(rol);
     }
 
@@ -167,8 +168,8 @@ public class UsuarioServicio implements UserDetailsService {
         if (email == null || email.isEmpty()) {
             throw new ErrorServicio("Error: El email del Usuario no puede ser nulo.");
         }
-        if(usuarioRepositorio.buscarPorEmail(email) != null){
-            throw new ErrorServicio("Error: El email "+email+" ya se encuentra registrado.");
+        if (usuarioRepositorio.buscarPorEmail(email) != null) {
+            throw new ErrorServicio("Error: El email " + email + " ya se encuentra registrado.");
         }
         if (password == null || password.isEmpty()) {
             throw new ErrorServicio("Error: La contraseña del Usuario no puede ser nula.");
@@ -184,26 +185,26 @@ public class UsuarioServicio implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            Usuario u =  buscarPorEmail(email);
-            
+            Usuario u = buscarPorEmail(email);
+
             if (u == null) {
                 return null;
             }
-            
+
             if (!u.isActivo()) {
                 throw new UsernameNotFoundException("El usuario está dado de baja");
             }
-            
+
             List<GrantedAuthority> permisos = new ArrayList<>();
-            
+
             GrantedAuthority p1 = new SimpleGrantedAuthority("ROLE_" + u.getRolUsuario().toString());
             permisos.add(p1);
-            
+
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            
+
             HttpSession session = attr.getRequest().getSession(true);
             session.setAttribute("usuariosession", u);
-            
+
             return new User(u.getEmail(), u.getPassword(), permisos);
         } catch (Exception ex) {
             Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
