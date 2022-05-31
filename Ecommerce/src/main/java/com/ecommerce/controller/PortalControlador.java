@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,16 +49,22 @@ public class PortalControlador {
     }
 
     @GetMapping("/shop")
-    public String shop(ModelMap model, @RequestParam(required = false) String query) {
+    public String shop(ModelMap model, @RequestParam(required = false) String query, @PageableDefault(size = 3) Pageable pageable) { Page<Producto> productos = productoServicio.getAll(pageable);
+
+        System.out.println(productos.getNumberOfElements());
+        System.out.println(productos.getContent());
+
+        
 
         List<Producto> lista = new ArrayList();
 
         if (query == null) {
+             
             lista = productoServicio.listar();
         } else {
             lista = productoServicio.buscarPorQuery(query);
         }
-        
+        model.put("page", productos);
         model.put("ListadosProductos", lista);
         return "shop.html";
     }

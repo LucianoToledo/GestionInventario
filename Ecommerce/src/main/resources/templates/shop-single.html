@@ -77,13 +77,14 @@
                                         <input type="hidden" th:value="${Producto.id}" name="idProducto">
                                 <input type="hidden" name="product-title" value="Activewear">
                                
-                                <div class="row">
+                                <div class="row" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
                                     
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item text-right">
-                                                Quantity
+                                                Cantidad
                                                 <input type="hidden"  name="cantidad" id="product-quanity" value="1">
+                                                
                                             </li>
                                             <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
                                             <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
@@ -102,9 +103,11 @@
                                     -->
                                 </div>
                             </form>
+                            <div th:if="${session.usuariosession == null}"> <a th:href="@{/login}" class='btn-link'>Debe loguearse para comprar 
 
-                        </div>
-                    </div>
+                            </div>
+                            </div>
+                      </div>
                 </div>
             </div>
         </div>
