@@ -1,0 +1,47 @@
+  <link rel="stylesheet" th:href="@{assets/css/login2.css}">
+  
+<div th:fragment="login-flotante">
+      
+     <div class="container right-panel-active">
+        <!-- Iniciar Sesion-->
+        <div class="container__form container--signup">
+            <form action="#" class="form" id="form1">
+                <h2 class="form__title">Registrarse</h2>
+                <input type="text" placeholder="Nombre" class="input" />
+                <input type="text" placeholder="Apellido" class="input" />
+                <input type="text" placeholder="Direccion" class="input" />
+                <input type="email" placeholder="Email" class="input" />
+                <input type="password" placeholder="Password" class="input" />
+                <input type="password" placeholder="Confirmar Password" class="input" />
+                <button class="btn">Registrarse</button>
+            </form>
+        </div>
+    
+        <!-- Registro -->
+        <div class="container__form container--signin">
+            <form action="#" class="form" id="form2">
+                <h2 class="form__title">Iniciar Sesion</h2>
+                <input type="email" placeholder="Email" class="input" />
+                <input type="password" placeholder="Password" class="input" />
+                <a href="#" class="link">Contraseña olvidada?</a>
+                <button class="btn">Iniciar Sesion</button>
+            </form>
+        </div>
+    
+        <!-- Overlay -->
+        <div class="container__overlay">
+            <div class="overlay">
+                <div class="overlay__panel overlay--left">
+                    <button class="btn" id="signIn">Iniciar Sesion</button>
+                </div>
+                <div class="overlay__panel overlay--right">
+                    <button class="btn" id="signUp">Registrarse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--
+    <script src="login2.js""></script>
+    -->
+</div>
