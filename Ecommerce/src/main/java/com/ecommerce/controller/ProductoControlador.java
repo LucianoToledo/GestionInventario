@@ -31,8 +31,7 @@ public class ProductoControlador {
     private ProductoServicio productoServicio;
     @Autowired
     private FacturaServicio facturaServicio;
-    @Autowired
-    private ProductoRepositorio productoRepositorio;
+    
 
     @GetMapping("/lista")
     public String lista(ModelMap modelo) {
