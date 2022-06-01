@@ -59,23 +59,17 @@ public class PortalControlador {
     
 
     @GetMapping("/shop")
-    public String shop(ModelMap model, @RequestParam(required = false) String query, @PageableDefault(size = 3) Pageable pageable) { Page<Producto> productos = productoServicio.getAll(pageable);
-
-        System.out.println(productos.getNumberOfElements());
-        System.out.println(productos.getContent());
-
-        
-
-        List<Producto> lista = new ArrayList();
+    public String shop(ModelMap model, @RequestParam(required = false) String query, @PageableDefault(size = 3) Pageable pageable) {
+        Page<Producto> productos;
 
         if (query == null) {
-             
-            lista = productoServicio.listar();
+           productos = productoServicio.getAll(pageable);
         } else {
-            lista = productoServicio.buscarPorQuery(query);
+            productos = productoServicio.buscarPorQuery(query, pageable);
         }
+        
         model.put("page", productos);
-        model.put("ListadosProductos", lista);
+        
         return "shop.html";
     }
 

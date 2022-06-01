@@ -95,7 +95,7 @@
 
 
 
-                        <div class="col-md-4" th:each="p : ${ListadosProductos}">
+                        <div class="col-md-4" th:each="p : ${page}">
                             <div class="card mb-4 product-wap rounded-0">
                                 <div class="card rounded-0">
                                     <img class="card-img rounded-0 img-fluid" th:src="${'/imagen/producto?id=' + p.id}" style="width: 800px; height: 350px">
