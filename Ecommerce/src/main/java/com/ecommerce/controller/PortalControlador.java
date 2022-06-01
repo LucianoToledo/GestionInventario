@@ -30,18 +30,26 @@ public class PortalControlador {
         model.put("ListadosProductos", productoServicio.listar());
         return "index";
     }
-
-    @GetMapping("/login")
-    public String login(ModelMap model, @RequestParam(required = false) String error, @RequestParam(required = false) String logout) {
-        if (error != null) {
-            model.put("error", "Usuario o Clave incorrectos >:(");
-        }
-
-        if (logout != null) {
-            model.put("logout", "Has cerrado sesión exitosamente :)");
-        }
-        return "login.html";
+    
+    @GetMapping("/login2")
+    public String login2(ModelMap model){
+        
+        return "login2.html";
     }
+
+    
+//    @GetMapping("/login")
+//    public String login(ModelMap model, @RequestParam(required = false) String error, @RequestParam(required = false) String logout) {
+//        if (error != null) {
+//            model.put("error", "Usuario o Clave incorrectos >:(");
+//        }
+//
+//        if (logout != null) {
+//            model.put("logout", "Has cerrado sesión exitosamente :)");
+//        }
+//        return "login.html";
+//    }
+    
 
     @GetMapping("/detalles/{id}")
     public String detalles(@PathVariable String id, ModelMap model) throws Exception {
@@ -92,4 +100,6 @@ public class PortalControlador {
         }
         return "shop-single.html";
     }
+    
+  
 }
