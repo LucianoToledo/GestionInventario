@@ -23,10 +23,10 @@
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light shadow">
         <div class="container d-flex justify-content-between align-items-center">
-            
-                
+
+
             <a class="navbar-brand text-success logo h1 align-self-center" th:href="@{/index}">
-                <img src="../assets/img/ElHuevo-Colores_1-SinFondo.png" class="rounded float-left" alt="elhuevo" id="elHuevo" width="80px" height="80px">  El Huevo Shop
+                <img src="../assets/img/ElHuevo-Colores_1-SinFondo.png" class="rounded float-left" alt="elhuevo" id="elHuevo" width="80px" height="80px"> El Huevo Shop
             </a>
 
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#templatemo_main_nav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,15 +58,14 @@
 
                     </ul>
                 </div>
-                
+
                 <div class="navbar align-self-center d-flex">
                     <div class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3">
-                    <!--Search-->
+                        <!--Search-->
                         <form class="input-group" th:action="@{/shop}">
-                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Buscar..."  name="query">
+                            <input type="text" class="form-control" id="inputMobileSearch" placeholder="Buscar..." name="query">
                             <div class="input-group-text">
-                                <button><i class="fa fa-fw fa-search" ></i></button>
-                                asd
+                                <button><i class="fa fa-fw fa-search" ></i></button> asd
                             </div>
                         </form>
                     </div>
@@ -91,16 +90,16 @@
                                 <a th:href="@{/logout}">Logout</a>
                             </div>
                         </div>
-                        
 
-<!-- termina intento nav usuario -->
+
+                        <!-- termina intento nav usuario -->
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
 
                     </a>
-                    
-                        <div sec:authorize="hasAnyRole('CLIENTE')">
-                            <a th:href="@{/logout}" class="btn-link">Cerrar sesión</a>
-                        </div>
+
+                    <div sec:authorize="hasAnyRole('CLIENTE')">
+                        <a th:href="@{/logout}" class="btn-link">Cerrar sesión</a>
+                    </div>
                     <!-- <input type="button" value="Abrir Ventana Modal" class="container__overlayr"> -->
                 </div>
             </div>
@@ -110,21 +109,21 @@
     <!-- Close Header -->
 
     <!-- Modal -->
-    <div class="modal fade bg-transparent" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="w-100 pt-1 mb-5 text-right">
                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-                <button class="text-success bg-transparent" name="button" type="button">Cerrar Buscar</button>
+                <button class="text-success bg-white" name="button" type="button">Cerrar Buscar</button>
             </div>
-                              
+
 
             <form th:action="@{/shop}" class="modal-content modal-body border-0 p-0">
                 <div class="input-group mb-2">
 
-                    <input type="text" class="form-control" id="inputModalSearch" name="query" placeholder="Search ...">
+
                     <input type="hidden" class="form-control" id="inputModalSearch" name="page" value="0">
                     <input type="hidden" class="form-control" id="inputModalSearch" name="size" value="3">
-                    
+
 
                     <input type="text" class="form-control" id="inputModalSearch" name="query" placeholder="Buscar ...">
 
@@ -135,8 +134,8 @@
             </form>
         </div>
     </div>
-    
-     <!-- Modal Login -->
+
+    <!-- Modal Login -->
     <div class="modal fade bg-white" id="modal_login" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="w-100 pt-1 mb-5 text-right">
@@ -144,9 +143,9 @@
             </div>
             <form action="" method="get" class="modal-content modal-body border-0 p-0">
                 <div class="input-group mb-2">
-                    
-                   
-               
+
+
+
                 </div>
             </form>
         </div>
@@ -162,8 +161,7 @@
                     <h2 class="h2 text-success border-bottom pb-3 border-light logo">El Huevo Shop</h2>
                     <ul class="list-unstyled text-light footer-link-list">
                         <li>
-                            <i class="fas fa-map-marker-alt fa-fw"></i>
-                            Papa Frita 525
+                            <i class="fas fa-map-marker-alt fa-fw"></i> Papa Frita 525
                         </li>
                         <li>
                             <i class="fa fa-phone fa-fw"></i>
@@ -237,8 +235,7 @@
                 <div class="row pt-2">
                     <div class="col-12">
                         <p class="text-left text-light">
-                            Copyright &copy; 2021 El Huevo Shop 
-                            | Designed by <a rel="sponsored" href="Los papa Frita" target="_blank">Los papa Frita</a>
+                            Copyright &copy; 2021 El Huevo Shop | Designed by <a rel="sponsored" href="Los papa Frita" target="_blank">Los papa Frita</a>
                         </p>
                     </div>
                 </div>
@@ -251,5 +248,5 @@
 
 
 
-    
+
 </div>
