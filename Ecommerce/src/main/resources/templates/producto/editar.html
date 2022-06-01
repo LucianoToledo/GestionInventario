@@ -44,13 +44,18 @@
                     <div class="valid-feedback">Campo validado</div>
                     <div class="invalid-feedback">Complete los datos</div>
                 </div>
+
                 <div class="col-md-6">
-                    <label for="tipo">Tipo de producto</label>
-                    <select name="tipoProducto" id="tipo"  class="form-select" th:value="${producto.tipoProducto}" required>
-                        <option selected disabled value="" th:text="${producto.tipoProducto}">Seleccionar el tipo de producto</option>
-                        <option value="Bebida">Bebida</option>
-                        <option value="Limpieza">Limpieza</option>
-                    </select>
+                    <label for="tipo" class="form-label">Seleccionar el tipo de producto</label>
+                    <select class="form-select form-select-sm" name="tipoProducto" aria-label=".form-select-sm example" required>
+                        <option selected>Seleccionar</option>
+                        <option value="Mouse">Mouse</option>
+                        <option value="Teclado">Teclado</option>
+                        <option value="Auriculares">Auriculares</option>
+                        <option value="PlacaMadre">Placa Madre</option>
+                        <option value="Monitor">Monitor</option>
+                        <option value="Notebook">Notebook</option>
+                    </select>   
                     <div class="valid-feedback">Campo validado</div>
                     <div class="invalid-feedback">Complete los datos</div>
                 </div>

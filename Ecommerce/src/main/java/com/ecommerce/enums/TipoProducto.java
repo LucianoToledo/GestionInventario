@@ -2,6 +2,6 @@ package com.ecommerce.enums;
 
 public enum TipoProducto {
 
-    Leche, Carne, Bebida,Limpieza;
+    Teclado,Mouse,Auriculares,Monitor,PlacaMadre,Notebook;
 
 }
