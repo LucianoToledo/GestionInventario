@@ -232,15 +232,11 @@ public class ProductoServicio {
         return productoRepositorio.findAll(pageable);
     }
 
+    public Page<Producto> buscarPorQuery(String query, Pageable pageable) {
+        return productoRepositorio.buscarPor(query, pageable);
+    }
+    
     public List<Producto> buscarPorQuery(String query) {
-//        ArrayList<Producto> productos= (ArrayList<Producto>) productoRepositorio.buscarPor(query);
-//        Iterator<Producto> it = productos.iterator();
-//        while(it.hasNext()){
-//            Producto next = it.next();
-//            if (next.getFechaBaja() != null) {
-//                it.remove();
-//            }
-//        }
         return productoRepositorio.buscarPor(query);
     }
 }
