@@ -1,11 +1,8 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
-import com.ecommerce.entities.Usuario;
-import com.ecommerce.repositories.ProductoRepositorio;
 import com.ecommerce.services.FacturaServicio;
 import com.ecommerce.services.ProductoServicio;
-import com.ecommerce.services.UsuarioServicio;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
