@@ -45,7 +45,7 @@ public class UsuarioControlador {
             System.out.println("ex = " + ex.getMessage());
             modelo.put("error", ex.getMessage()); //el mensaje deberia traerlo del servicio de usuario
         }
-        return "login.html";
+        return "redirect:/login2";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
