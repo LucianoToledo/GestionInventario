@@ -56,6 +56,7 @@ public class PortalControlador {
         model.put("producto", productoServicio.buscarPorId(id));
         return "detalles";
     }
+    
 
     @GetMapping("/shop")
     public String shop(ModelMap model, @RequestParam(required = false) String query, @PageableDefault(size = 3) Pageable pageable) { Page<Producto> productos = productoServicio.getAll(pageable);
