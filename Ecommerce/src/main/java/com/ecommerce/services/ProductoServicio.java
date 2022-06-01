@@ -63,11 +63,15 @@ public class ProductoServicio {
     }
 
     private TipoProducto verificarProducto(String tipo) {
-        if (tipo.equals("Bebida")) {
-            return TipoProducto.Bebida;
-        } else {
-            return TipoProducto.Limpieza;
+        switch (tipo) {
+            case "Mouse": return TipoProducto.Mouse;
+            case "Teclado": return TipoProducto.Teclado;
+            case "Auriculares": return TipoProducto.Auriculares;
+            case "PlacaMadre": return TipoProducto.PlacaMadre;
+            case "Monitor": return TipoProducto.Monitor;
+            case "Notebook": return TipoProducto.Notebook;
         }
+        return null;
     }
 
     @Transactional

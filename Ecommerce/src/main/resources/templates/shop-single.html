@@ -1,6 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 
+    <head>
+        <title>El Huevo Shop - Producto</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="../assets/img/apple-icon.png">
+        <link rel="shortcut icon" type="image/x-icon" href="../assets/img/favicon.ico">
+
+        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../assets/css/templatemo.css">
+        <link rel="stylesheet" href="../assets/css/custom.css">
+
+        <!-- Load fonts style after rendering the layout styles -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+        <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+
+        <link rel="stylesheet" type="text/css" href="../assets/css/slick.min.css">
+        <link rel="stylesheet" type="text/css" href="../assets/css/slick-theme.css">
+
+    </head>
+
+    <body>
+        <!-- Start Top Nav -->
+        <div th:insert="fragments/topnav :: menu-navegacion"></div>
+
+        <!-- Open Content -->
+        <section class="bg-light" th:object="${Producto}">
+            <div class="container pb-5">
+                <div class="row">
+                    <div class="col-lg-5 mt-5">
+                        <img class="card-img img-fluid" th:src="${'/imagen/producto?id=' + Producto.id}" alt="Card image cap" id="product-detail">
+                    </div>
+                    <div class="col-lg-7 mt-5">
+                        <div class="card">
+                            <div class="card-body">
+                                <h1 class="h2" th:text="${Producto.nombre}"></h1>
+                                <p class="h3 py-2" th:text="'$ ' + ${Producto.precioVenta}"></p>
+                                <p class="py-2">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-secondary"></i>
+                                    <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments</span>
+                                </p>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <h6>Brand:</h6>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <p class="text-muted"><strong th:text="${Producto.tipoProducto}"></strong></p>
+                                    </li>
+                                </ul>
+                                <h1>emvipi</h1>
+                                <h6>Description:</h6>
+                                <p th:text="${Producto.descripcion}"></p>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <h6>Stock: </h6>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <p class="text-muted"><strong th:text="${Producto.stock}"></strong></p>
+                                    </li>
+                                </ul>
 <head>
     <title>El Huevo Shop - Producto</title>
     <meta charset="utf-8">
@@ -70,51 +134,53 @@
                                 </li>
                             </ul>
 
-                           
 
-                            <form  th:action="@{/producto/comprar}" method="post">
-                                        <input type="hidden" th:value="${session.usuariosession.id}" name="idUsuario" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
-                                        <input type="hidden" th:value="${Producto.id}" name="idProducto">
-                                <input type="hidden" name="product-title" value="Activewear">
-                               
-                                <div class="row" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
-                                    
-                                    <div class="col-auto">
-                                        <ul class="list-inline pb-3">
-                                            <li class="list-inline-item text-right">
-                                                Cantidad
-                                                <input type="hidden"  name="cantidad" id="product-quanity" value="1">
-                                                
-                                            </li>
-                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
-                                            <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
-                                            <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="row pb-3" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
-                                    <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy" >Comprar</button>
-                                    </div>
-                                    <!--  AGREGAR AL CARRITO
-                                    <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
-                                    </div>
-                                    -->
-                                </div>
-                            </form>
-                            <div th:if="${session.usuariosession == null}"> <a th:href="@{/login}" class='btn-link'>Debe loguearse para comprar 
 
+                                <form  th:action="@{/producto/comprar}" method="post">
+                                    <input type="hidden" th:value="${session.usuariosession.id}" name="idUsuario" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
+                                    <input type="hidden" th:value="${Producto.id}" name="idProducto">
+                                    <input type="hidden" name="product-title" value="Activewear">
+
+                                    <div class="row" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
+
+                                        <div class="col-auto">
+                                            <ul class="list-inline pb-3">
+                                                <li class="list-inline-item text-right">
+                                                    Cantidad
+                                                    <input type="hidden"  name="cantidad" id="product-quanity" value="1">
+
+                                                </li>
+                                                <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
+                                                <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
+                                                <li class="list-inline-item"><span class="btn btn-success" id="btn-plus">+</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="row pb-3" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy" >Comprar</button>
+                                        </div>
+                                        <!--  AGREGAR AL CARRITO
+                                        <div class="col d-grid">
+                                            <button type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Add To Cart</button>
+                                        </div>
+                                        -->
+                                    </div>
+                                </form>
+                                <div th:if="${session.usuariosession == null}"> <a th:href="@{/login}" class='btn-link'>Debe loguearse para comprar 
+
+                                </div>
                             </div>
-                            </div>
-                      </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <!-- col end -->
         </div>
     </section>
     <!-- Close Content -->
 
-     <!-- Start Article -->
+    <!-- Start Article -->
     <section class="py-5">
         <div class="container">
             <div class="row text-left p-2 pb-3">
@@ -589,7 +655,7 @@
 
 
     <!-- Start Footer -->
-        <div th:insert="fragments/topnav :: footer"></div>
+    <div th:insert="fragments/topnav :: footer"></div>
     <!-- End Footer -->
 
     <!-- Start Script -->

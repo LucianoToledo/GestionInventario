@@ -1,10 +1,11 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
+import com.ecommerce.entities.Usuario;
 import com.ecommerce.repositories.ProductoRepositorio;
 import com.ecommerce.services.FacturaServicio;
 import com.ecommerce.services.ProductoServicio;
-import java.util.ArrayList;
+import com.ecommerce.services.UsuarioServicio;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,7 +34,9 @@ public class ProductoControlador {
     private FacturaServicio facturaServicio;
     @Autowired
     private ProductoRepositorio productoRepositorio;
-
+    @Autowired
+    private UsuarioServicio usuarioServicio;
+    
     @GetMapping("/lista")
     public String lista(ModelMap modelo) {
         List<Producto> productos = productoServicio.listar();
@@ -96,7 +99,7 @@ public class ProductoControlador {
         return "redirect:/producto/lista";
     }
 
-    //codigo de avel
+    //codigo de avelHttpSession session
     @PostMapping("/comprar")
     public String comprarProucto(ModelMap modelo, @RequestParam String idUsuario, @RequestParam String idProducto, @RequestParam String cantidad) {
         try {
