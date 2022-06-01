@@ -58,7 +58,7 @@
                                     <p class="text-muted"><strong th:text="${Producto.tipoProducto}"></strong></p>
                                 </li>
                             </ul>
-
+                            <h1>emvipi</h1>
                             <h6>Description:</h6>
                             <p th:text="${Producto.descripcion}"></p>
                             <ul class="list-inline">
@@ -73,16 +73,18 @@
                            
 
                             <form  th:action="@{/producto/comprar}" method="post">
-                                        <input type="hidden" th:value="${session.usuariosession.id}" name="idUsuario">
+                                        <input type="hidden" th:value="${session.usuariosession.id}" name="idUsuario" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
                                         <input type="hidden" th:value="${Producto.id}" name="idProducto">
                                 <input type="hidden" name="product-title" value="Activewear">
-                                <div class="row">
+                               
+                                <div class="row" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
                                     
                                     <div class="col-auto">
                                         <ul class="list-inline pb-3">
                                             <li class="list-inline-item text-right">
-                                                Quantity
+                                                Cantidad
                                                 <input type="hidden"  name="cantidad" id="product-quanity" value="1">
+                                                
                                             </li>
                                             <li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
                                             <li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
@@ -90,9 +92,9 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="row pb-3">
+                                <div class="row pb-3" sec:authorize="hasAnyRole('ROLE_CLIENTE')">
                                     <div class="col d-grid">
-                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Comprar</button>
+                                        <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy" >Comprar</button>
                                     </div>
                                     <!--  AGREGAR AL CARRITO
                                     <div class="col d-grid">
@@ -101,9 +103,11 @@
                                     -->
                                 </div>
                             </form>
+                            <div th:if="${session.usuariosession == null}"> <a th:href="@{/login}" class='btn-link'>Debe loguearse para comprar 
 
-                        </div>
-                    </div>
+                            </div>
+                            </div>
+                      </div>
                 </div>
             </div>
         </div>

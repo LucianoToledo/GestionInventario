@@ -4,6 +4,8 @@ import com.ecommerce.entities.Usuario;
 import com.ecommerce.enums.RolUsuario;
 import com.ecommerce.services.UsuarioServicio;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -58,6 +60,22 @@ public class UsuarioControlador {
         }
 
         return "redirect:";
+    }
+    
+    @GetMapping("/lista")
+    public String index(ModelMap modelo){
+        modelo.put("usuarios",usuarioServicio.listarUsuarios());
+        return "/usuario/lista";
+    }
+    
+    @GetMapping("/rol/{id}")
+    public String cambiarRol(@PathVariable String id){
+        try {
+            usuarioServicio.swicthRolUsuario(id);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "redirect:/usuario/lista";
     }
 
     //Ver si se hace con modal o vista nueva
