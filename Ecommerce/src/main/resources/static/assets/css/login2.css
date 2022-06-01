@@ -5,8 +5,8 @@ CSS para login
 	/* COLORS */
 	--white: #e9e9e9;
 	--gray: #333;
-	--blue: #0367a6;
-	--lightblue: #008997;
+	--blue: #075713;
+	--lightblue: #419240;
 
 	/* RADII */
 	--button-radius: 0.7rem;
@@ -22,7 +22,7 @@ CSS para login
 
 body {
 	align-items: center;
-	background-color: var(--white);
+	background-color: #0c3e11;
 	/* background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg"); */
 	background-attachment: fixed;
 	background-position: center;
@@ -33,20 +33,20 @@ body {
 	place-items: center;
 }
 
-form__title {
+.form__title {
 	font-weight: 300;
 	margin: 0;
 	margin-bottom: 1.25rem;
 }
 
-link {
+.link {
 	color: var(--gray);
 	font-size: 0.9rem;
 	margin: 1.5rem 0;
 	text-decoration: none;
 }
 
-login2 container {
+.container {
 	background-color: var(--white);
 	border-radius: var(--button-radius);
 	box-shadow: 0 0.9rem 1.7rem rgba(0, 0, 0, 0.25),
@@ -58,38 +58,38 @@ login2 container {
 	width: 100%;
 }
 
-.login2 container__form {
+.container__form {
 	height: 100%;
 	position: absolute;
 	top: 0;
 	transition: all 0.6s ease-in-out;
 }
 
-.login2 container--signin {
+.container--signin {
 	left: 0;
 	width: 50%;
 	z-index: 2;
 }
 
-login2 container.right-panel-active .container--signin {
+.container.right-panel-active .container--signin {
 	transform: translateX(100%);
 }
 
-login2 container--signup {
+.container--signup {
 	left: 0;
 	opacity: 0;
 	width: 50%;
 	z-index: 1;
 }
 
-login2 container.right-panel-active .container--signup {
+.container.right-panel-active .container--signup {
 	animation: show 0.6s;
 	opacity: 1;
 	transform: translateX(100%);
 	z-index: 5;
 }
 
-login2 container__overlay {
+.container__overlay {
 	height: 100%;
 	left: 50%;
 	overflow: hidden;
@@ -100,11 +100,11 @@ login2 container__overlay {
 	z-index: 100;
 }
 
-login2 container.right-panel-active .container__overlay {
+.container.right-panel-active .container__overlay {
 	transform: translateX(-100%);
 }
 
-login2 overlay {
+.overlay {
 	background-color: var(--lightblue);
 	/* background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg"); */
 	background: url("https://www.businessandmarketingtodaynews.com/wp-content/uploads/2020/09/las-capsulas-se-transmitiran-diariamente.jpeg");
@@ -120,11 +120,11 @@ login2 overlay {
 	width: 200%;
 }
 
-.login2 container.right-panel-active .overlay {
+.container.right-panel-active .overlay {
 	transform: translateX(50%);
 }
 
-.login2 overlay__panel {
+.overlay__panel {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
@@ -138,24 +138,24 @@ login2 overlay {
 	width: 50%;
 }
 
-.login2 overlay--left {
+.overlay--left {
 	transform: translateX(-20%);
 }
 
-.login2 container.right-panel-active .overlay--left {
+.container.right-panel-active .overlay--left {
 	transform: translateX(0);
 }
 
-.login2 overlay--right {
+.overlay--right {
 	right: 0;
 	transform: translateX(0);
 }
 
-.login2 container.right-panel-active .overlay--right {
+.container.right-panel-active .overlay--right {
 	transform: translateX(20%);
 }
 
-.login2 btn {
+.btn {
 	background-color: var(--blue);
 	background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%);
 	border-radius: 20px;
@@ -170,19 +170,19 @@ login2 overlay {
 	transition: transform 80ms ease-in;
 }
 
-.login2 form > .btn {
+.form > .btn {
 	margin-top: 1.5rem;
 }
 
-.login2 btn:active {
+.btn:active {
 	transform: scale(0.95);
 }
 
-.login2 btn:focus {
+.btn:focus {
 	outline: none;
 }
 
-.login2 form {
+.form {
 	background-color: var(--white);
 	display: flex;
 	align-items: center;
@@ -193,7 +193,7 @@ login2 overlay {
 	text-align: center;
 }
 
-.login2 input {
+.input {
 	background-color: #fff;
 	border: none;
 	padding: 0.9rem 0.9rem;
@@ -201,7 +201,7 @@ login2 overlay {
 	width: 100%;
 }
 
-.login2 @keyframes show {
+@keyframes show {
 	0%,
 	49.99% {
 		opacity: 0;

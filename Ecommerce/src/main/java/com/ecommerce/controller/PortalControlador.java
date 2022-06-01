@@ -99,4 +99,6 @@ public class PortalControlador {
         }
         return "shop-single.html";
     }
+    
+  
 }

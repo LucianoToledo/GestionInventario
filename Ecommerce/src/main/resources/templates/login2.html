@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <title>Inicio Sesion y Registro</title>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" th:href="@{assets/css/login2.css}">
+
+    </head>
+    <body>
+            <div class="container right-panel-active">
+                <!-- Iniciar Sesion-->
+                <div class="container__form container--signup">
+                    <form th:action="@{/usuario/registro}"   method="POST" class="form" id="form1">
+                        <h2 class="form__title">Registrarse</h2>
+                        <input type="text" placeholder="Nombre" class="input" name="nombre"/>
+                        <input type="text" placeholder="Apellido" class="input" name="apellido"/>
+                        <input type="text" placeholder="Direccion" class="input" name="direccion"/>
+                        <input type="email" placeholder="Email" class="input" name="email"/>
+                        <input type="password" placeholder="Password" class="input" name="password"/>
+                        <input type="password" placeholder="Confirmar Password" class="input" name="confirmarPassword"/>
+                        <button type="submit" class="btn btn-primary">Registrarme</button>
+                    </form>
+                </div>
+
+                <!-- Registro -->
+                <div class="container__form container--signin">
+                    <form th:action="@{/logincheck}" method="POST" class="form" id="form2">
+                        <h2 class="form__title">Iniciar Sesion</h2>
+                        <input type="email" placeholder="Email" class="input" name="email"/>
+                        <input type="password" placeholder="Password" class="input" name="password"/>
+                        <a href="#" class="link">Contraseña olvidada?</a>
+                        <button type="submit" class="btn">Iniciar Sesion</button>
+                    </form>
+                </div>
+
+                <!-- Overlay -->
+                <div class="container__overlay">
+                    <div class="overlay">
+                        <div class="overlay__panel overlay--left">
+                            <button class="btn" id="signIn">Iniciar Sesion</button>
+                        </div>
+                        <div class="overlay__panel overlay--right">
+                            <button class="btn" id="signUp">Registrarse</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <script th:src="@{assets/js/login2.js}"></script>
+    </body>
+</html>
