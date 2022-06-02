@@ -48,7 +48,7 @@
                         <li class="nav-item">
                             <a class="nav-link" th:href="@{/contact}">Contacto</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" th:if="${session.usuariosession == null}">
                             <div class="dropdown">
                                 <a class="nav-link" th:href="@{/login2}">Ingresar/Registrarse</a>
 
@@ -78,12 +78,11 @@
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <!-- <a class="nav-icon position-relative text-decoration-none" th:href="@{/fragments/login2}"> -->
-                    <a class="nav-icon position-relative text-decoration-none" th:href="@{/login2}">
                         <!-- <i class="fa fa-fw fa-user text-dark mr-3"></i> -->
                         <!-- comienza intento nav usuario -->
                         <div class="dropdown nav-icon position-relative text-decoration-none" sec:authorize="hasAnyRole('ADMIN')">
 
-                            <i class=" dropbtn fa fa-fw fa-user text-dark mr-3">.Usuario</i>
+                            <i class=" dropbtn fa fa-fw fa-user text-dark mr-3"></i>
                             <div class="dropdown-content">
                                 <a th:href="@{/producto/lista}">Productos</a>
                                 <a th:href="@{/usuario/lista}">Usuarios</a>
