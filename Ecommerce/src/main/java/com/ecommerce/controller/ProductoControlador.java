@@ -1,11 +1,8 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
-import com.ecommerce.entities.Usuario;
-import com.ecommerce.repositories.ProductoRepositorio;
 import com.ecommerce.services.FacturaServicio;
 import com.ecommerce.services.ProductoServicio;
-import com.ecommerce.services.UsuarioServicio;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,12 +30,9 @@ public class ProductoControlador {
     private ProductoServicio productoServicio;
     @Autowired
     private FacturaServicio facturaServicio;
-    @Autowired
-    private ProductoRepositorio productoRepositorio;
-    @Autowired
-    private UsuarioServicio usuarioServicio;
-    
+
     @GetMapping("/lista")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String lista(ModelMap modelo) {
         List<Producto> productos = productoServicio.listar();
         modelo.put("productos", productos);
@@ -205,30 +200,4 @@ public class ProductoControlador {
 
         return "shop_1.html";
     }
-
-//    @GetMapping("/page/{pageNo}")
-//    public String findPaginated(@PathVariable int pageNo, @RequestParam("sortField") String sortField, @RequestParam("sortField") String sortDir, Model model){
-//        int pageSize = 5;
-//        
-//        Page<Producto> page = productoServicio.findPaginated(pageNo, pageSize, sortField, sortDir);
-//        List<Producto> productos = page.getContent();
-//        
-//        model.addAttribute("currentPage",pageNo);
-//        model.addAttribute("totalPages",page.getTotalPages());
-//        model.addAttribute("totalItems", page.getTotalElements());
-//        
-//        model.addAttribute("sortField",sortField);
-//        model.addAttribute("sortDir",sortDir);
-//        model.addAttribute("reverseSortDir",sortDir.equals("asc") ? "desc" : "asc");
-//                
-//        model.addAttribute("productos",productos);
-//
-//        return "index";
-//    }
-//    @GetMapping("/shop/")
-//    public String showPage(Model model,@RequestParam(defaultValue = "0") int page){
-//        model.addAttribute("productos",
-//              productoRepositorio.findAll(new PageRequest(page, 6)));
-//        return "shop.html";
-//    }
 }
