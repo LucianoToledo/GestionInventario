@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 						.usernameParameter("email") //name del input donde ingresamos el email
 						.passwordParameter("password")//name del input donde ingresamos el password
 						.defaultSuccessUrl("/") //si todo sale bien vamos al index
-						.failureUrl("/login?error=error") //si todo sale mal volvemos al login
+						.failureUrl("/login2?error=error") //si todo sale mal volvemos al login
 						.permitAll()
 				.and().logout()
 					.logoutUrl("/logout") //para deslogearse
