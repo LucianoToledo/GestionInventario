@@ -1,6 +1,7 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.entities.Producto;
+import com.ecommerce.services.FacturaServicio;
 import com.ecommerce.services.ProductoServicio;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +10,9 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +26,8 @@ public class PortalControlador {
 
     @Autowired
     private ProductoServicio productoServicio;
-
+    @Autowired
+    private FacturaServicio facturaServicio;
 
     @GetMapping("/index")
     public String index(ModelMap model) {
@@ -95,5 +99,16 @@ public class PortalControlador {
         return "shop-single.html";
     }
     
-  
+    @GetMapping("/comprar/{id}")
+    public String comprar(@PathVariable String id,ModelMap modelo){
+        modelo.put("compras", facturaServicio.buscarFactura(id));
+        return "comprar";
+    }
+    
+    @GetMapping("/cantidad/{id}")
+    public ResponseEntity<?> cantidadComprada(@PathVariable String id){
+        
+        return ResponseEntity.ok(facturaServicio.cantidadProducto(id));
+        
+    }
 }

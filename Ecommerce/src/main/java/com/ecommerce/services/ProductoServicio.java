@@ -239,4 +239,5 @@ public class ProductoServicio {
     public List<Producto> buscarPorQuery(String query) {
         return productoRepositorio.buscarPor(query);
     }
+    
 }

@@ -58,7 +58,22 @@ public class FacturaServicio {
         }
       
     }
-       
+    
+    @Transactional
+    public List<Factura> buscarFactura(String id){
+        if (id == null) {
+            throw new RuntimeException("No se encontro el id");
+        }
+        return facturaRepositorio.buscarCompras(id);
+    } 
+    
+    @Transactional
+    public int cantidadProducto(String id){
+        if (id == null) {
+            throw new RuntimeException("No se encontro el id");
+        }
+        return facturaRepositorio.buscarCompras(id).size();
+    }
 //    @Transactional(rollbackFor = {Exception.class})
 //    public void modificar(String idFactura, String idUsuario, List<Producto> productos, EstadoFactura estadoFactura)
 //            throws ErrorServicio {
